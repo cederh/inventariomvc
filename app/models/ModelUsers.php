@@ -13,6 +13,7 @@ class ModelUsers{
                         usu_tipo, usu_password, usu_estado)
                         VALUES(:nombre, :apellido, :genero, :dui, :usuario, :tipo, :password, 1)');
 
+
       $this->db->bind(':nombre',$user['nombre']);
       $this->db->bind(':apellido',$user['apellido']);
       $this->db->bind(':genero',$user['genero']);
