@@ -8,12 +8,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                           <label for="nombre">Nombre</label>
                             <input type="text" class="form-control form-control-alternative" id="nombre" name="nombre"
                                 placeholder="Nombre" value="<?php echo $parameters['user']->usu_nombre?>">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                           <label for="apellido">Apellido</label>
                             <input type="text" class="form-control form-control-alternative" id="apellido"
                                 name="apellido" placeholder="Apellido" value="<?php echo $parameters['user']->usu_apellido?>">
                         </div>
@@ -21,6 +23,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
+                       <label for="">Sexo</label>
                         <div class="form-group form-inline">
                             <div class="custom-control custom-radio mb-3 form-check-inline">
                                 <input name="genero" class="custom-control-input" id="hombre" value="1" type="radio" <?php echo $var = ($parameters['user']->usu_genero == 1)?'checked':''?>>
@@ -34,6 +37,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                           <label for="dui">Numero de DUI</label>
                             <input type="text" class="form-control form-control-alternative" id="dui" name="dui"
                                 placeholder="DUI" value="<?php echo $parameters['user']->usu_dui?>">
                         </div>
@@ -42,11 +46,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                           <label for="usuario">Nombre de Usuario</label>
                             <input type="text" class="form-control form-control-alternative" id="user" name="user"
                                 placeholder="Usuario" value="<?php echo $parameters['user']->usu_usuario?>">
                         </div>
                     </div>
                     <div class="col-md-6">
+                        <label for="">Tipo de Usuario</label>
                         <div class="form-group form-inline">
                             <div class="custom-control custom-radio mb-3 form-check-inline">
                                 <input name="user_type" class="custom-control-input" id="estandar" value="1"
@@ -63,13 +69,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="password" class="form-control form-control-alternative" id="pass" name="pass" placeholder="Contraseña" value="<?php echo $parameters['user']->usu_password?>">
+                           <label for="pass">Contraseña</label>
+                            <input type="password" class="form-control form-control-alternative" id="pass" name="pass" placeholder="Contraseña">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="password" class="form-control form-control-alternative" id="pass2" name="pass2"
-                                placeholder="Repetir Contraseña" value="<?php echo $parameters['user']->usu_password?>">
+                           <label for="pass2">Repita Contraseña</label>
+                            <input type="password" class="form-control form-control-alternative" id="pass2" name="pass2" placeholder="Repetir Contraseña">
                         </div>
                     </div>
                 </div>

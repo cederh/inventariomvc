@@ -67,7 +67,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 </div>
 
@@ -88,12 +87,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
+                               <label for="nombre">Nombre</label>
                                 <input type="text" class="form-control form-control-alternative" id="nombre"
                                     name="nombre" placeholder="Nombre">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                               <label for="apellido">Apellido</label>
                                 <input type="text" class="form-control form-control-alternative" id="apellido"
                                     name="apellido" placeholder="Apellido">
                             </div>
@@ -101,6 +102,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                           <label for="">Sexo</label>
                             <div class="form-group form-inline">
                                 <div class="custom-control custom-radio mb-3 form-check-inline">
                                     <input name="genero" class="custom-control-input" id="hombre" value="1"
@@ -115,6 +117,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                               <label for="dui">Numero de DUI</label>
                                 <input type="text" class="form-control form-control-alternative" id="dui" name="dui"
                                     placeholder="DUI">
                             </div>
@@ -123,11 +126,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
+                               <label for="user">Nombre de Usuario</label>
                                 <input type="text" class="form-control form-control-alternative" id="user" name="user"
                                     placeholder="Usuario">
                             </div>
                         </div>
                         <div class="col-md-6">
+                           <label for="">Tipo de Usuario</label>
                             <div class="form-group form-inline">
                                 <div class="custom-control custom-radio mb-3 form-check-inline">
                                     <input name="user_type" class="custom-control-input" id="estandar" value="1"
@@ -144,6 +149,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                           <label for="pass">Contraseña</label>
                             <div class="form-group">
                                 <input type="password" class="form-control form-control-alternative" id="pass"
                                     name="pass" placeholder="Contraseña">
@@ -151,6 +157,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                               <label for="pass2">Repetir Contraseña</label>
                                 <input type="password" class="form-control form-control-alternative" id="pass2"
                                     name="pass2" placeholder="Repetir Contraseña">
                             </div>

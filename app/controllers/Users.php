@@ -54,33 +54,35 @@ class Users extends MainController{
          $user['pass'] = sanitize( hash('sha512', $_POST['pass']) );
          $user['pass2'] = sanitize($_POST['pass2']);
 
-         if ($user['nombre'] == ''){
-            $errores .= "<p>Por favor Ingrese el Nombre</p>";
-         }elseif (strlen($user['nombre']) > 50 ) {
-            $errores .= '<p>El nombre debe tener menos de 50 Caracteres</p>';
-         }
+         // if ($user['nombre'] == ''){
+         //    $errores .= "<p>Por favor Ingrese el Nombre</p>";
+         // }elseif (strlen($user['nombre']) > 50 ) {
+         //    $errores .= '<p>El nombre debe tener menos de 50 Caracteres</p>';
+         // }
+         //
+         // if ($user['apellido'] == ''){
+         //    $errores .= "<p>Por favor Ingrese el Apellido</p>";
+         // }elseif (strlen($user['apellido']) > 50 ){
+         //    $errores .= '<p>El Apellido debe tener menos de 50 Caracteres</p>';
+         // }
+         //
+         // if ($user['dui'] == ''){
+         //    $errores .= "<p>Por favor Ingrese el DUI</p>";
+         // }
+         //
+         // if ($user['user'] == ''){
+         //    $errores .= "<p>Por favor Ingrese el Nombre de Usuario</p>";
+         // }elseif (strlen($user['user']) > 50 ) {
+         //    $errores .= '<p>El Usuario debe tener menos de 50 Caracteres</p>';
+         // }
 
-         if ($user['apellido'] == ''){
-            $errores .= "<p>Por favor Ingrese el Apellido</p>";
-         }elseif (strlen($user['apellido']) > 50 ){
-            $errores .= '<p>El Apellido debe tener menos de 50 Caracteres</p>';
-         }
-
-         if ($user['dui'] == ''){
-            $errores .= "<p>Por favor Ingrese el DUI</p>";
-         }
-
-         if ($user['user'] == ''){
-            $errores .= "<p>Por favor Ingrese el Nombre de Usuario</p>";
-         }elseif (strlen($user['user']) > 50 ) {
-            $errores .= '<p>El Usuario debe tener menos de 50 Caracteres</p>';
-         }
-
-         if ($user['pass'] == '') {
-            $errores .= "<p>>Por favor Ingrese su Contraseña</p>";
-         }elseif ($user['pass'] == $user['pass2']) {
-            $errores .= "<p>>Las Contraseñas no coinciden</p>";
-         }
+         // if($user['pass'] == ''){
+         //    $errores.= '<p>Por favor Ingrese su Contraseña</p>';
+         // }
+         //
+         // if($user['pass'] != $user['pass2']) {
+         //    $errores.= '<p>Las Contraseñas no coinciden.</p>';
+         // }
 
          if ($errores == '') {
             if ($this->ModelUsers->update_user($id, $user)) {
