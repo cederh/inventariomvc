@@ -99,14 +99,14 @@
                             <div class="form-group">
                                <label for="nombre">Nombre</label>
                                 <input type="text" class="form-control form-control-alternative" id="nombre"
-                                    name="nombre" placeholder="Nombre">
+                                    name="nombre" placeholder="Nombre" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                <label for="apellido">Apellido</label>
                                 <input type="text" class="form-control form-control-alternative" id="apellido"
-                                    name="apellido" placeholder="Apellido">
+                                    name="apellido" placeholder="Apellido" required>
                             </div>
                         </div>
                     </div>
@@ -116,11 +116,12 @@
                             <div class="form-group form-inline">
                                 <div class="custom-control custom-radio mb-3 form-check-inline">
                                     <input name="genero" class="custom-control-input" id="hombre" value="1"
-                                        type="radio">
+                                        type="radio" required>
                                     <label class="custom-control-label" for="hombre">Hombre</label>
                                 </div>
                                 <div class="custom-control custom-radio mb-3 form-check-inline">
-                                    <input name="genero" class="custom-control-input" id="mujer" value="2" type="radio">
+                                    <input name="genero" class="custom-control-input" id="mujer" value="2"
+                                        type="radio" required>
                                     <label class="custom-control-label" for="mujer">Mujer</label>
                                 </div>
                             </div>
@@ -129,7 +130,7 @@
                             <div class="form-group">
                                <label for="dui">Numero de DUI</label>
                                 <input type="text" class="form-control form-control-alternative" id="dui" name="dui"
-                                    placeholder="DUI">
+                                    placeholder="DUI" required>
                             </div>
                         </div>
                     </div>
@@ -138,7 +139,7 @@
                             <div class="form-group">
                                <label for="user">Nombre de Usuario</label>
                                 <input type="text" class="form-control form-control-alternative" id="user" name="user"
-                                    placeholder="Usuario">
+                                    placeholder="Usuario" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -146,12 +147,12 @@
                             <div class="form-group form-inline">
                                 <div class="custom-control custom-radio mb-3 form-check-inline">
                                     <input name="user_type" class="custom-control-input" id="estandar" value="1"
-                                        type="radio">
+                                        type="radio" required>
                                     <label class="custom-control-label" for="estandar">Estandar</label>
                                 </div>
                                 <div class="custom-control custom-radio mb-3 form-check-inline">
                                     <input name="user_type" class="custom-control-input" id="admin" value="2"
-                                        type="radio">
+                                        type="radio" required>
                                     <label class="custom-control-label" for="admin">Admin</label>
                                 </div>
                             </div>
@@ -162,18 +163,29 @@
                            <label for="pass">Contraseña</label>
                             <div class="form-group">
                                 <input type="password" class="form-control form-control-alternative" id="pass"
-                                    name="pass" placeholder="Contraseña">
+                                    name="pass" placeholder="Contraseña" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                <label for="pass2">Repetir Contraseña</label>
                                 <input type="password" class="form-control form-control-alternative" id="pass2"
-                                    name="pass2" placeholder="Repetir Contraseña">
+                                    name="pass2" placeholder="Repetir Contraseña" required>
                             </div>
                         </div>
                     </div>
+                    <!-- Alerta PHP -->
+                    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''):?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger errores">
+                              <?php echo $parameters['errores'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif;?>
 
+                  <!-- Errores JS -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="alert alert-danger errores" id="errores" style="display:none">

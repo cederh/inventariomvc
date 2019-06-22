@@ -16,16 +16,10 @@ class Login extends MainController
     public function index(){
         $errores = '';
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //print_r($_POST);
+
             $user = sanitize($_POST['user']);
             $pass = hash('sha512', SALT . sanitize($_POST['password']));
 
-
-            //echo $pass;
-            //validaciones
-
-
-            //print_r($this->ModelLogin->login($user, $pass));
             $user = $this->ModelLogin->login($user, $pass);
 
             if (!$user) {

@@ -74,13 +74,13 @@
                 </button>
             </div>
             <!-- Formulario nuevo usuario -->
-            <form action="<?php echo ROUTE_URL?>/categories/add_category" method="post" id="form-usuario">
+            <form action="<?php echo ROUTE_URL?>/categories/add_category" method="post" id="form-categoria">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                <label for="nombre">Nombre de la Categoría</label>
-                                <input type="text" class="form-control form-control-alternative" id="nombre"
+                                <input type="text" required class="form-control form-control-alternative" id="nombre"
                                     name="nombre" placeholder="Nombre">
                             </div>
                         </div>
@@ -89,12 +89,22 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label for="descripcion">Descripcion</label>
-                                 <textarea class="form-control form-control-alternative" id="descripcion" name="descripcion" placeholder="Descripcion">
-
-                                 </textarea>
+                                 <textarea class="form-control form-control-alternative" id="descripcion" name="descripcion" placeholder="Descripcion" required></textarea>
                            </div>
                         </div>
                     </div>
+                    <!-- Alerta PHP -->
+                    <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''):?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger errores">
+                              <?php echo $parameters['errores'] ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif;?>
+
+                  <!-- Errores JS -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="alert alert-danger errores" id="errores" style="display:none">

@@ -51,13 +51,13 @@
               <div class="text-center text-muted mb-4">
                 <small>Ingrese sus credenciales</small>
               </div>
-              <form role="form" action="<?php echo ROUTE_URL.'/login'?>" method="post">
+              <form role="form" action="<?php echo ROUTE_URL.'/login'?>" method="post" id="form-login">
                 <div class="form-group mb-3">
                   <div class="input-group input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-user"></i></span>
                     </div>
-                    <input class="form-control" name="user" placeholder="Usuario" type="text">
+                    <input class="form-control" name="user" placeholder="Usuario" type="text" id="user" required>
                   </div>
                 </div>
                 <div class="form-group">
@@ -65,10 +65,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input class="form-control" name="password" placeholder="Contraseña" type="password">
+                    <input class="form-control" name="password" placeholder="Contraseña" type="password" id="password" required>
                   </div>
                 </div>
-                <!-- <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''): ?>
+
+                <!-- Alerta PHP -->
+                <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''):?>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alert alert-danger errores">
@@ -76,7 +78,17 @@
                         </div>
                     </div>
                 </div>
-              <?php endif; ?> -->
+                <?php endif;?>
+
+              <!-- Errores JS -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger errores" id="errores" style="display:none">
+
+                        </div>
+                    </div>
+                </div>
+
                 <div class="text-center">
                   <input type="submit" class="btn btn-primary my-4" value="Iniciar sesión">
                 </div>
@@ -98,6 +110,7 @@
   <script src="<?php echo ROUTE_URL?>/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Argon JS -->
   <script src="<?php echo ROUTE_URL?>/assets/js/argon.js?v=1.0.0"></script>
+  <script src="<?php echo ROUTE_URL?>/js/validaciones.js"></script>
 </body>
 
 </html>

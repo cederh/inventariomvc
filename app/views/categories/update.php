@@ -8,13 +8,13 @@
             Regresar</a>
     </div>
     <div class="card-body">
-      <form action="<?php echo ROUTE_URL?>/categories/update_category/<?php echo $parameters['categories']->idcategoria ?>" method="post" id="form-usuario">
+      <form action="<?php echo ROUTE_URL?>/categories/update_category/<?php echo $parameters['categories']->idcategoria ?>" method="post" id="form-categoria">
           <div class="modal-body">
                <div class="row">
                   <div class="col-md-12">
                        <div class="form-group">
                           <label for="nombre">Nombre de la Categoría</label>
-                           <input type="text" class="form-control form-control-alternative" id="nombre"
+                           <input type="text" required class="form-control form-control-alternative" id="nombre"
                               name="nombre" placeholder="Nombre" value="<?php echo $parameters['categories']->nombre ?>">
                        </div>
                   </div>
@@ -24,17 +24,28 @@
                      <div class="form-group">
                         <label for="descripcion">Descripcion</label>
                            <textarea class="form-control form-control-alternative" id="descripcion"
-                           name="descripcion" placeholder="Descripcion" ><?php echo $parameters['categories']->descripcion?>
-                           </textarea>
+                           name="descripcion" placeholder="Descripcion" required><?php echo $parameters['categories']->descripcion?></textarea>
                      </div>
                   </div>
                </div>
+               <!-- Alerta PHP -->
+               <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''):?>
                <div class="row">
-                  <div class="col-md-12">
+                   <div class="col-md-12">
+                       <div class="alert alert-danger errores">
+                        <?php echo $parameters['errores'] ?>
+                       </div>
+                   </div>
+               </div>
+               <?php endif;?>
+
+             <!-- Errores JS -->
+               <div class="row">
+                   <div class="col-md-12">
                        <div class="alert alert-danger errores" id="errores" style="display:none">
 
                        </div>
-                  </div>
+                   </div>
                </div>
           </div>
           <input type="submit" class="btn btn-primary" name="guardar" value="Guardar">

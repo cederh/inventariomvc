@@ -75,13 +75,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                            <label for="pass">Contraseña</label>
-                            <input type="password" class="form-control form-control-alternative" id="pass" name="pass" placeholder="Contraseña">
+                            <input type="password" required class="form-control form-control-alternative" id="pass" name="pass" placeholder="Contraseña">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                            <label for="pass2">Repita Contraseña</label>
-                            <input type="password" class="form-control form-control-alternative" id="pass2" name="pass2" placeholder="Repetir Contraseña">
+                            <input type="password" required class="form-control form-control-alternative" id="pass2" name="pass2" placeholder="Repetir Contraseña">
                         </div>
                     </div>
                 </div>
