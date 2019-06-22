@@ -10,8 +10,8 @@
       var dui = formulario.dui;
       var user = formulario.user;
       var user_type = formulario.user_type;
-      var pass = formulario.pass;
-      var pass2 = formulario.pass2;
+      // var pass = formulario.pass;
+      // var pass2 = formulario.pass2;
 
       //Accedemos al contenedor de errores
       var errores = document.getElementById('errores');
@@ -77,26 +77,26 @@
        }
       }
 
-      function validarPassword(e){
-       if (pass.value == '' || pass.value == null) {
-         //console.log('Ingrese Nombre');
-         errores.style.display = 'block';
-         errores.innerHTML += '<p>Por favor Ingrese su Contraseña</p>';
-         e.preventDefault();
-       }else if (pass.value.length > 50) {
-         errores.style.display = 'block';
-         errores.innerHTML += '<p>La Contraseña debe tener menos de 50 Caracteres</p>';
-         e.preventDefault();
-       }
-      }
-
-      function validarPassword2(e) {
-       if (pass.value != pass2.value) {
-         errores.style.display = 'block';
-         errores.innerHTML += '<p>Las Contraseñas no coinciden.</p>';
-         e.preventDefault();
-       }
-      }
+      // function validarPassword(e){
+      //  if (pass.value == '' || pass.value == null) {
+      //    //console.log('Ingrese Nombre');
+      //    errores.style.display = 'block';
+      //    errores.innerHTML += '<p>Por favor Ingrese su Contraseña</p>';
+      //    e.preventDefault();
+      //  }else if (pass.value.length > 50) {
+      //    errores.style.display = 'block';
+      //    errores.innerHTML += '<p>La Contraseña debe tener menos de 50 Caracteres</p>';
+      //    e.preventDefault();
+      //  }
+      // }
+      //
+      // function validarPassword2(e) {
+      //  if (pass.value != pass2.value) {
+      //    errores.style.display = 'block';
+      //    errores.innerHTML += '<p>Las Contraseñas no coinciden.</p>';
+      //    e.preventDefault();
+      //  }
+      // }
 
       function validarFormulario(e){
        //Limpiar contenedor
@@ -107,8 +107,8 @@
        validarDUI(e);
        validarUsuario(e);
        validarUserType(e);
-       validarPassword(e);
-       validarPassword2(e);
+       // validarPassword(e);
+       // validarPassword2(e);
       }
 
 
@@ -124,53 +124,53 @@
    //VALIDACIONES PARA LOGIN
    //##############################################
 
-   if (document.getElementById('form-login')) {
-    //Acceso al formulario
-    var formulario= document.getElementById('form-login');
-    var user = formulario.user;
-    var password = formulario.password;
-
-
-    //Accedemos al contenedor de errores
-    var errores = document.getElementById('errores');
-
-    function validarUser(e){
-        if (user.value == '' || user.value == null) {
-          //console.log('Ingrese user');
-          errores.style.display = 'block';
-          errores.innerHTML += '<p>Por favor Ingrese el usuario</p>';
-          e.preventDefault();
-        }else if (user.value.length > 50) {
-          errores.style.display = 'block';
-          errores.innerHTML += '<p>El usuario debe tener menos de 50 Caracteres</p>';
-          e.preventDefault();
-        }
-      }
-
-     function validarPassword(e){
-       if (password.value == '' || password.value == null) {
-         //console.log('Ingrese Nombre');
-         errores.style.display = 'block';
-         errores.innerHTML += '<p>Por favor Ingrese su Contraseña</p>';
-         e.preventDefault();
-       }else if (password.value.length > 50) {
-         errores.style.display = 'block';
-         errores.innerHTML += '<p>La Contraseña debe tener menos de 50 Caracteres</p>';
-         e.preventDefault();
-       }
-     }
-
-
-    function validarFormulario(e){
-      //Limpiar contenedor
-      errores.innerHTML = '';
-      validarUser(e);
-      validarPassword(e);
-    }
-
-
-    formulario.addEventListener('submit', validarFormulario);
-
-  }
+  //  if (document.getElementById('form-login')) {
+  //   //Acceso al formulario
+  //   var formulario= document.getElementById('form-login');
+  //   var user = formulario.user;
+  //   var password = formulario.password;
+  //
+  //
+  //   //Accedemos al contenedor de errores
+  //   var errores = document.getElementById('errores');
+  //
+  //   function validarUser(e){
+  //       if (user.value == '' || user.value == null) {
+  //         //console.log('Ingrese user');
+  //         errores.style.display = 'block';
+  //         errores.innerHTML += '<p>Por favor Ingrese el usuario</p>';
+  //         e.preventDefault();
+  //       }else if (user.value.length > 50) {
+  //         errores.style.display = 'block';
+  //         errores.innerHTML += '<p>El usuario debe tener menos de 50 Caracteres</p>';
+  //         e.preventDefault();
+  //       }
+  //     }
+  //
+  //    function validarPassword(e){
+  //      if (password.value == '' || password.value == null) {
+  //        //console.log('Ingrese Nombre');
+  //        errores.style.display = 'block';
+  //        errores.innerHTML += '<p>Por favor Ingrese su Contraseña</p>';
+  //        e.preventDefault();
+  //      }else if (password.value.length > 50) {
+  //        errores.style.display = 'block';
+  //        errores.innerHTML += '<p>La Contraseña debe tener menos de 50 Caracteres</p>';
+  //        e.preventDefault();
+  //      }
+  //    }
+  //
+  //
+  //   function validarFormulario(e){
+  //     //Limpiar contenedor
+  //     errores.innerHTML = '';
+  //     validarUser(e);
+  //     validarPassword(e);
+  //   }
+  //
+  //
+  //   formulario.addEventListener('submit', validarFormulario);
+  //
+  // }
 
 }());

@@ -7,13 +7,14 @@ class Users extends MainController{
 
    }
 
-   public function index(){
+   public function index($alert = ''){
 
         // Obtener los datos de los usuarios
       $users = $this->ModelUsers->get_users();
       $parameters = [
          'menu' => 'Usuarios',
-         'users' => $users
+         'users' => $users,
+         'alert' => $alert
       ];
 
       // Cargando la vista
@@ -29,19 +30,19 @@ class Users extends MainController{
          $user['dui'] = sanitize($_POST['dui']);
          $user['user'] = sanitize($_POST['user']);
          $user['user_type'] = sanitize($_POST['user_type']);
-         $user['pass'] = sanitize( hash('sha512', $_POST['pass']) );
+         $user['pass'] = hash('sha512', SALT . sanitize($_POST['pass']));
          $user['pass2'] = sanitize($_POST['pass2']);
 
          if ($this->ModelUsers->add_user($user)) {
-            header('location: '. ROUTE_URL . '/users');
+            header('location: '. ROUTE_URL . '/users/saved');
          }else{
             echo "No se pudo guardar la informacion";
          }
       }
    }
 
-   public function update($id = 0, $update= false){
-      $errores = '';
+   public function update($id = 0, $alert = ''){
+      // $errores = '';
 
       if ($_SERVER['REQUEST_METHOD'] == 'POST'){
          // Limpiando los datos enviados por el usuario
@@ -51,8 +52,6 @@ class Users extends MainController{
          $user['dui'] = sanitize($_POST['dui']);
          $user['user'] = sanitize($_POST['user']);
          $user['user_type'] = sanitize($_POST['user_type']);
-         $user['pass'] = sanitize( hash('sha512', $_POST['pass']) );
-         $user['pass2'] = sanitize($_POST['pass2']);
 
          // if ($user['nombre'] == ''){
          //    $errores .= "<p>Por favor Ingrese el Nombre</p>";
@@ -84,12 +83,11 @@ class Users extends MainController{
          //    $errores.= '<p>Las Contraseñas no coinciden.</p>';
          // }
 
-         if ($errores == '') {
-            if ($this->ModelUsers->update_user($id, $user)) {
-               header("location:".ROUTE_URL."/users/update/".$id."/true");
-            }else {
-               die("Error al Actualizar el Usuario");
-            }
+
+         if ($this->ModelUsers->update_user($id, $user)) {
+            header("location:".ROUTE_URL."/users/update/".$id."/saved");
+         }else {
+            die("Error al Actualizar el Usuario");
          }
       }
 
@@ -102,11 +100,57 @@ class Users extends MainController{
       $parameters = [
          'menu' => 'Usuarios',
          'user' => $user,
-         'errores' => $errores,
-         'update' => $update
+         // 'errores' => $errores,
+         'alert' => $alert
       ];
 
       $this->view('users/update', $parameters);
+   }
+
+   public function update_password($id = 0, $alert = ''){
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+         // Limpiamos los datos para prevenir inyección de código
+         $user['pass'] = hash('sha512', SALT . sanitize($_POST['pass']));
+
+         if ($this->ModelUsers->update_password($id, $user)) {
+            header("location:".ROUTE_URL."/users/update_password/".$id."/saved");
+         }else {
+            die('Error al guardar los datos');
+         }
+      }
+      $user = $this->ModelUsers->get_user($id);
+      if (!$user) {
+         header('location:'.ROUTE_URL.'/users');
+      }
+
+      $parameters = [
+         'menu' => 'Usuarios',
+         'user' => $user,
+         'alert' => $alert
+      ];
+
+      $this->view('users/update_password', $parameters);
+   }
+
+   public function info($id = 0){
+
+      // Obtenemos la información del paciente
+      $user = $this->ModelUsers->get_user($id);
+
+      // Si no hay un paciente con ese id redireccionamos
+      if (!$user) {
+           redirect('/users');
+      }
+
+      // Preparamentos para enviar a la vista
+      $parameters = [
+           'menu' => 'Usuarios',
+           'user' => $user
+      ];
+
+      // llamamos la vista y mandamos los parámetros
+      $this->view('users/info', $parameters);
    }
 }
 

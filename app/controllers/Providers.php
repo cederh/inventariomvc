@@ -8,13 +8,14 @@ class Providers extends MainController{
 
    }
 
-   public function index(){
+   public function index($alert = ''){
 
       $providers = $this->ModelProviders->get_providers();
 
       $parameters = [
          'menu' => 'Proveedores',
-         'providers' => $providers
+         'providers' => $providers,
+         'alert' => $alert
       ];
 
       $this->view('providers/index', $parameters);
@@ -33,21 +34,20 @@ class Providers extends MainController{
          }
 
          if ($this->ModelProviders->add_provider($providers)) {
-            header('location: '. ROUTE_URL . '/providers');
+            header('location: '. ROUTE_URL . '/providers/saved');
          }else{
             echo "No se pudo guardar la informacion";
          }
       }
       $parameters = [
-         'menu' => 'Proveedores',
-         // 'users' => $users
+         'menu' => 'Proveedores'
       ];
 
       // Cargando la vista
       $this->view('providers/index', $parameters);
    }
 
-   public function update_provider($id = 0){
+   public function update_provider($id = 0, $alert = ''){
 
       if ($_SERVER['REQUEST_METHOD'] == 'POST'){
          // Limpiando los datos enviados por el usuario
@@ -62,10 +62,9 @@ class Providers extends MainController{
          }
 
          if ($this->ModelProviders->update_provider($id, $providers)) {
-            header("location:".ROUTE_URL."/providers/update_provider/".$id);
-            //.$id."/true");
+            header("location:".ROUTE_URL."/providers/update_provider/".$id."/saved");
          }else {
-            die("Error al Actualizar el Usuario");
+            die("Error al Actualizar el Proveedor");
          }
       }
 
@@ -77,7 +76,8 @@ class Providers extends MainController{
 
       $parameters = [
          'menu' => 'Proveedores',
-         'providers' => $providers
+         'providers' => $providers,
+         'alert' => $alert
       ];
 
       $this->view('providers/update', $parameters);

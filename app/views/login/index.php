@@ -68,7 +68,7 @@
                     <input class="form-control" name="password" placeholder="Contraseña" type="password">
                   </div>
                 </div>
-                <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''): ?>
+                <!-- <?php if($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''): ?>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alert alert-danger errores">
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-              <?php endif; ?>
+              <?php endif; ?> -->
                 <div class="text-center">
                   <input type="submit" class="btn btn-primary my-4" value="Iniciar sesión">
                 </div>

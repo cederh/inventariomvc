@@ -4,12 +4,12 @@
    <div class="card-header bg-transparent">
      <div class="row">
          <div class="col-md-6">
-             <h3 class="mb-0 text-blue"><i class="fas fa-truck"></i> Proveedores </h3>
+             <h3 class="mb-0 text-blue"><i class="fas fa-truck"></i> Categorias </h3>
          </div>
          <div class="col-md-6 text-right">
              <button class="btn btn-icon btn-2 btn-sm btn-primary" type="button" data-toggle="modal"
-                 data-target="#new_provider">
-                 <i class="fas fa-user-plus"></i>
+                 data-target="#new_category">
+                 <i class="fas fa-folder-plus"></i>
              </button>
          </div>
      </div>
@@ -22,21 +22,21 @@
                    <tr>
                        <th scope="col">ID</th>
                        <th scope="col">Nombre</th>
-                       <th scope="col">telefono</th>
+                       <th scope="col">Descripcion</th>
                        <th scope="col">Opciones</th>
                    </tr>
                </thead>
                <tbody>
-                   <?php foreach ($parameters['providers'] as $key => $providers):?>
+                   <?php foreach ($parameters['categories'] as $key => $categories):?>
                    <tr>
                        <td>
-                           <?php echo $providers->idproveedor?>
+                           <?php echo $categories->idcategoria?>
                        </td>
                        <td>
-                           <?php echo $providers->nombre ?>
+                           <?php echo $categories->nombre ?>
                        </td>
                        <td>
-                           <?php echo $providers->telefono?>
+                           <?php echo $categories->descripcion?>
                        </td>
                        <td class="text-right">
                            <div class="dropdown">
@@ -46,10 +46,10 @@
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <a class="dropdown-item"
-                                       href="<?php echo ROUTE_URL?>/providers/info/<?php echo $providers->idproveedor?>"><i
+                                       href="<?php echo ROUTE_URL?>/categories/info/<?php echo $categories->idcategoria?>"><i
                                           class="fas fa-info-circle"></i>Informacion</a>
                                     <a class="dropdown-item"
-                                       href="<?php echo ROUTE_URL?>/providers/update_provider/<?php echo $providers->idproveedor?>"><i
+                                       href="<?php echo ROUTE_URL?>/categories/update_category/<?php echo $categories->idcategoria?>"><i
                                           class="fas fa-user-edit"></i>Actualizar</a>
                               </div>
                            </div>
@@ -63,43 +63,27 @@
    </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="new_provider" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="new_category" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user-plus"></i> Nuevo Proveedor</h5>
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-tag"></i> Nueva Categoría</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <!-- Formulario nuevo usuario -->
-            <form action="<?php echo ROUTE_URL?>/providers/add_provider" method="post" id="form-usuario">
+            <form action="<?php echo ROUTE_URL?>/categories/add_category" method="post" id="form-usuario">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
-                               <label for="nombre">Nombre del Proveedor</label>
+                               <label for="nombre">Nombre de la Categoría</label>
                                 <input type="text" class="form-control form-control-alternative" id="nombre"
                                     name="nombre" placeholder="Nombre">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                           <div class="form-group">
-                              <label for="telefono">Telefono</label>
-                                <input type="text" class="form-control form-control-alternative" id="telefono" name="telefono"
-                                    placeholder="Telefono">
-                           </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                       <div class="col-md-12">
-                           <div class="form-group">
-                              <label for="direccion">Direccion</label>
-                              <input type="text" class="form-control form-control-alternative" id="direccion"
-                                   name="direccion" placeholder="Direccion">
-                           </div>
-                       </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -137,7 +121,7 @@ if ($parameters['alert'] == 'saved') {
     "<script>
         Swal.fire({
         title: 'Datos guardados',
-        text: 'Nuevo Proveedor registrado exitosamente',
+        text: 'Nueva Categoría registrado exitosamente',
         type: 'success',
         confirmButtonText: 'Aceptar'
       })

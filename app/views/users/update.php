@@ -3,6 +3,10 @@
     <div class="card-header bg-transparent">
         <h3 class="mb-0">Actualizar Usuario </h3>
     </div>
+    <div class="card-header">
+        <a class="text-info" href="<?php echo ROUTE_URL?>/users"><i class="fas fa-step-backward"></i>
+            Regresar</a>
+    </div>
     <div class="card-body">
         <form action="<?php echo ROUTE_URL?>/users/update/<?php echo $parameters['user']->idusuario?>" method="post" id="form-usuario">
                 <div class="row">
@@ -66,20 +70,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                           <label for="pass">Contraseña</label>
-                            <input type="password" class="form-control form-control-alternative" id="pass" name="pass" placeholder="Contraseña">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                           <label for="pass2">Repita Contraseña</label>
-                            <input type="password" class="form-control form-control-alternative" id="pass2" name="pass2" placeholder="Repetir Contraseña">
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Alerta PHP -->
                 <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''):?>
@@ -91,16 +81,6 @@
                     </div>
                 </div>
                 <?php endif;?>
-
-                <?php if($parameters ['update'] == true): ?>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-success">
-                          <p>Datos Actualizados exitosamente.</p>
-                        </div>
-                    </div>
-                </div>
-              <?php endif ?>
 
               <!-- Errores JS -->
                 <div class="row">
@@ -115,4 +95,17 @@
         </form>
     </div>
 </div>
-<?php require_once('../app/views/inc/footer.php'); ?>
+<?php require_once('../app/views/inc/footer.php');
+//Alertas
+if ($parameters['alert'] == 'saved') {
+    echo
+    "<script>
+        Swal.fire({
+        title: 'Datos guardados',
+        text: 'Datos actualizados exitosamente',
+        type: 'success',
+        confirmButtonText: 'Aceptar'
+      })
+    </script>";
+}
+?>

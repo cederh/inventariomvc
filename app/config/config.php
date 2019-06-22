@@ -15,4 +15,6 @@ define('ROUTE_URL', 'http://localhost/inventariomvc');
 
 define('SITE_NAME', 'Inventario MVC');
 
+define('SALT', '%]7"oR9S+N');
+
 ?>

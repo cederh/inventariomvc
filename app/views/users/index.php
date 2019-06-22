@@ -54,11 +54,21 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <a class="dropdown-item"
-                                        href="<?php echo ROUTE_URL?>/users/update/<?php echo $user->idusuario?>"><i
-                                            class="fas fa-user-edit"></i>Actualizar</a>
+                                       href="<?php echo ROUTE_URL?>/users/info/<?php echo $user->idusuario?>"><i
+                                           class="fas fa-info-circle"></i>Información
+                                    </a>
                                     <a class="dropdown-item"
-                                        href="<?php echo ROUTE_URL?>/users/disable/<?php echo $user->idusuario?>"><i
-                                            class="fas fa-minus-circle"></i> Desactivar</a>
+                                        href="<?php echo ROUTE_URL?>/users/update/<?php echo $user->idusuario?>"><i
+                                            class="fas fa-user-edit"></i>Actualizar
+                                    </a>
+                                    <a class="dropdown-item"
+                                       href="<?php echo ROUTE_URL?>/users/update_password/<?php echo $user->idusuario?>"><i
+                                          class="fas fa-key"></i>Actualizar Contraseña
+                                    </a>
+                                    <a class="dropdown-item"
+                                       href="<?php echo ROUTE_URL?>/users/disable/<?php echo $user->idusuario?>"><i
+                                          class="fas fa-minus-circle"></i>Desactivar
+                                    </a>
                                 </div>
                             </div>
                         </td>
@@ -257,8 +267,17 @@
         </div>
     </div>
 </div>
-
-
-
-
-<?php require_once('../app/views/inc/footer.php'); ?>
+<?php require_once('../app/views/inc/footer.php');
+// Alertas
+if ($parameters['alert'] == 'saved') {
+    echo
+    "<script>
+        Swal.fire({
+        title: 'Datos guardados',
+        text: 'Nuevo Usuario registrado exitosamente',
+        type: 'success',
+        confirmButtonText: 'Aceptar'
+      })
+    </script>";
+}
+?>

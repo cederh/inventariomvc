@@ -99,7 +99,7 @@
                   </a>
                </li>
                <li class="nav-item <?php echo $var = ($parameters['menu'] == 'Categorías') ? 'active' : ''?>">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="<?php echo ROUTE_URL?>/categories">
                      <i class="fas fa-tags text-red"></i> Categorías
                   </a>
                </li>
