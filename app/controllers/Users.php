@@ -22,6 +22,7 @@ class Users extends MainController{
    }
 
    public function add_user(){
+
       if ($_SERVER['REQUEST_METHOD'] == 'POST'){
          // Limpiando los datos enviados por el usuario
          $user['nombre'] = sanitize($_POST['nombre']);
@@ -42,7 +43,6 @@ class Users extends MainController{
    }
 
    public function update($id = 0, $alert = ''){
-      $errores = '';
 
       if ($_SERVER['REQUEST_METHOD'] == 'POST'){
          // Limpiando los datos enviados por el usuario
@@ -53,34 +53,10 @@ class Users extends MainController{
          $user['user'] = sanitize($_POST['user']);
          $user['user_type'] = sanitize($_POST['user_type']);
 
-         if ($user['nombre'] == ''){
-            $errores .= "<p>Por favor Ingrese el Nombre</p>";
-         }elseif (strlen($user['nombre']) > 50 ) {
-            $errores .= '<p>El nombre debe tener menos de 50 Caracteres</p>';
-         }
-
-         if ($user['apellido'] == ''){
-            $errores .= "<p>Por favor Ingrese el Apellido</p>";
-         }elseif (strlen($user['apellido']) > 50 ){
-            $errores .= '<p>El Apellido debe tener menos de 50 Caracteres</p>';
-         }
-
-         if ($user['dui'] == ''){
-            $errores .= "<p>Por favor Ingrese el DUI</p>";
-         }
-
-         if ($user['user'] == ''){
-            $errores .= "<p>Por favor Ingrese el Nombre de Usuario</p>";
-         }elseif (strlen($user['user']) > 50 ) {
-            $errores .= '<p>El Usuario debe tener menos de 50 Caracteres</p>';
-         }
-
-         if ($errores == "") {
-            if ($this->ModelUsers->update_user($id, $user)) {
-               header("location:".ROUTE_URL."/users/update/".$id."/saved");
-            }else {
-               die("Error al Actualizar el Usuario");
-            }
+         if ($this->ModelUsers->update_user($id, $user)) {
+            header("location:".ROUTE_URL."/users/update/".$id."/saved");
+         }else {
+            die("Error al Actualizar el Usuario");
          }
       }
 
