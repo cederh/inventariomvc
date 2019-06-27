@@ -15,7 +15,7 @@
                        <div class="form-group">
                           <label for="nombre">Nombre de la Categoría</label>
                            <input type="text" required class="form-control form-control-alternative" id="nombre"
-                              name="nombre" placeholder="Nombre" value="<?php echo $parameters['categories']->nombre ?>">
+                              name="nombre" placeholder="Nombre" value="<?php echo $parameters['categories']->nombre_categoria ?>">
                        </div>
                   </div>
                </div>

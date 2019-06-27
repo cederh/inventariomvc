@@ -9,7 +9,7 @@
             <div class="col-md-6">
                 <p><b>Información de la Categoría</b></p>
                 <hr>
-                <p><b>Nombre: </b> <?php echo $parameters['categories']->nombre?></p>
+                <p><b>Nombre: </b> <?php echo $parameters['categories']->nombre_categoria?></p>
                 <p><b>Descripcion: </b><?php echo $parameters['categories']->descripcion?></p>
             </div>
             <div class="col-md-6">

@@ -56,7 +56,7 @@
                   <div class=" dropdown-header noti-title">
                      <h6 class="text-overflow m-0">¡Bienvenido!</h6>
                   </div>
-                  <a href="#" class="dropdown-item">
+                  <a href="<?php echo ROUTE_URL?>/users/info/<?php //echo $user->idusuario?>" class="dropdown-item">
                      <i class="ni ni-single-02"></i>
                      <span>Mi perfil</span>
                   </a>
@@ -94,7 +94,7 @@
                   </a>
                </li>
                <li class="nav-item <?php echo $var = ($parameters['menu'] == 'Inventario') ? 'active' : ''?>">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="<?php echo ROUTE_URL?>/inventory">
                      <i class="fas fa-boxes text-green"></i> Inventario
                   </a>
                </li>

@@ -33,7 +33,7 @@
                            <?php echo $categories->idcategoria?>
                        </td>
                        <td>
-                           <?php echo $categories->nombre ?>
+                           <?php echo $categories->nombre_categoria ?>
                        </td>
                        <td>
                            <?php echo $categories->descripcion?>

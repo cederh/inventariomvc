@@ -33,7 +33,7 @@
                            <?php echo $providers->idproveedor?>
                        </td>
                        <td>
-                           <?php echo $providers->nombre ?>
+                           <?php echo $providers->nombre_proveedor ?>
                        </td>
                        <td>
                            <?php echo $providers->telefono?>

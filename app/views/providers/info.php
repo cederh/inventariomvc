@@ -9,7 +9,7 @@
             <div class="col-md-6">
                 <p><b>Información de la empresa</b></p>
                 <hr>
-                <p><b>Nombre: </b> <?php echo $parameters['providers']->nombre?></p>
+                <p><b>Nombre: </b> <?php echo $parameters['providers']->nombre_proveedor?></p>
                 <p><b>Direccion: </b> <?php echo $parameters['providers']->direccion?></p>
                 <p><b>Telefono: </b><?php echo $parameters['providers']->telefono?></p>
                 <p><b>Descripcion: </b><?php echo $parameters['providers']->descripcion?></p>

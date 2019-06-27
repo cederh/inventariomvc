@@ -9,7 +9,7 @@ class ModelProviders{
 
    public function add_provider($providers){
       $this->db->query('INSERT INTO tbl_proveedores(
-                        nombre, direccion, telefono, descripcion, idusuario, fecha_mod)
+                        nombre_proveedor, direccion, telefono, descripcion, idusuario, fecha_mod)
                         VALUES(:nombre, :direccion, :telefono, :descripcion, :idusuario, NOW())');
 
       $this->db->bind(':nombre',$providers['nombre']);
@@ -42,7 +42,7 @@ class ModelProviders{
 
    public function update_provider($id, $providers){
       $this->db->query("UPDATE tbl_proveedores
-                        SET nombre = :nombre, telefono = :telefono, direccion = :direccion, descripcion = :descripcion, idusuario = :idusuario, fecha_mod = NOW()
+                        SET nombre_proveedor = :nombre, telefono = :telefono, direccion = :direccion, descripcion = :descripcion, idusuario = :idusuario, fecha_mod = NOW()
                         WHERE idproveedor = :id
                      ");
 

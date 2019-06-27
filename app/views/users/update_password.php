@@ -10,6 +10,7 @@
     <div class="card-body">
         <form action="<?php echo ROUTE_URL?>/users/update_password/<?php echo $parameters['user']->idusuario?>" method="post" id="form-usuario">
                 <div class="row">
+                   
                     <div class="col-md-6">
                         <div class="form-group">
                            <label for="nombre">Nombre</label>

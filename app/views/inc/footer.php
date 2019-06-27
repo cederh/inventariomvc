@@ -11,7 +11,7 @@
    <script src="<?php echo ROUTE_URL?>/assets/vendor/chart.js/dist/Chart.extension.js"></script>
    <!-- Argon JS -->
    <script src="<?php echo ROUTE_URL?>/assets/js/argon.js?v=1.0.0"></script>
-   <!-- <script src="<?php echo ROUTE_URL?>/js/validaciones.js"></script> -->
+   <script src="<?php echo ROUTE_URL?>/js/validaciones.js"></script>
    <script src="<?php echo ROUTE_URL?>/js/jquery.mask.js"></script>
    <script src="<?php echo ROUTE_URL?>/js/sweetalert.js"></script>
 

@@ -15,7 +15,7 @@
                        <div class="form-group">
                           <label for="nombre">Nombre del Proveedor</label>
                            <input type="text" required class="form-control form-control-alternative" id="nombre"
-                              name="nombre" placeholder="Nombre" value="<?php echo $parameters['providers']->nombre ?>">
+                              name="nombre" placeholder="Nombre" value="<?php echo $parameters['providers']->nombre_proveedor ?>">
                        </div>
                   </div>
                   <div class="col-md-6">

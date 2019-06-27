@@ -23,7 +23,7 @@ class ModelCategories{
 
    public function add_category($categories){
       $this->db->query('INSERT INTO tbl_categoria(
-                        nombre, descripcion, idusuario, fecha_mod)
+                        nombre_categoria, descripcion, idusuario, fecha_mod)
                         VALUES(:nombre, :descripcion, :idusuario, NOW())');
 
       $this->db->bind(':nombre',$categories['nombre']);
@@ -39,7 +39,7 @@ class ModelCategories{
 
    public function update_category($id, $categories){
       $this->db->query("UPDATE tbl_categoria
-                        SET nombre = :nombre, descripcion = :descripcion, idusuario = :idusuario, fecha_mod = NOW()
+                        SET nombre_categoria = :nombre, descripcion = :descripcion, idusuario = :idusuario, fecha_mod = NOW()
                         WHERE idcategoria = :id
                      ");
 
