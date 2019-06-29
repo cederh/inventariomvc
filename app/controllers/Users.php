@@ -11,10 +11,12 @@ class Users extends MainController{
 
         // Obtener los datos de los usuarios
       $users = $this->ModelUsers->get_users();
+      $disable = $this->ModelUsers->get_disable();
       $parameters = [
          'menu' => 'Usuarios',
          'users' => $users,
-         'alert' => $alert
+         'alert' => $alert,
+         'disable'=> $disable
       ];
 
       // Cargando la vista
@@ -120,6 +122,37 @@ class Users extends MainController{
 
       // llamamos la vista y mandamos los parámetros
       $this->view('users/info', $parameters);
+   }
+
+   public function disable($id = 0, $alert = '')
+   {
+
+      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+         // Limpiando los datos enviados por el usuario
+         $user['estado'] = sanitize($_POST['estado']);
+
+         if ($this->ModelUsers->disable($id, $user)) {
+            header("location:".ROUTE_URL."/users/saved");
+         }else {
+            die("Error al Actualizar el Usuario");
+         }
+      }
+
+      $user = $this->ModelUsers->get_user($id);
+
+      if (!$user) {
+         header('location:'.ROUTE_URL.'/users');
+      }
+
+      // Preparamentos para enviar a la vista
+      $parameters = [
+           'menu' => 'Usuarios',
+           'alert' => $alert,
+           'user' => $user
+      ];
+
+      // llamamos la vista y mandamos los parámetros
+      $this->view('users/disable', $parameters);
    }
 }
 

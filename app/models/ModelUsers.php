@@ -30,7 +30,12 @@ class ModelUsers{
    }
 
    public function get_users(){
-      $this->db->query("SELECT * FROM tbl_usuarios");
+      $this->db->query("SELECT * FROM tbl_usuarios WHERE usu_estado = 1");
+      return $this->db->registers();
+   }
+
+   public function get_disable(){
+      $this->db->query("SELECT * FROM tbl_usuarios WHERE usu_estado = 2");
       return $this->db->registers();
    }
 
@@ -67,6 +72,20 @@ class ModelUsers{
                         WHERE idusuario = :id");
 
       $this->db->bind(':password', $user['pass']);
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+         return true;
+      }else {
+         return false;
+      }
+   }
+
+   public function disable($id, $user){
+      $this->db->query("UPDATE tbl_usuarios
+                        SET usu_estado = 2, fecha_mod =  NOW()
+                        WHERE idusuario = :id");
+
       $this->db->bind(':id', $id);
 
       if ($this->db->execute()) {

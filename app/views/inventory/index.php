@@ -54,15 +54,16 @@
                                            class="fas fa-info-circle"></i>Información
                                     </a>
                                     <a class="dropdown-item"
-                                        href="<?php echo ROUTE_URL?>/inventorys/update/<?php echo $inventory->idusuario?>"><i
+                                        href="<?php echo ROUTE_URL?>/inventory/update_product/<?php echo $inventory->idproducto?>"><i
                                             class="fas fa-inventory-edit"></i>Actualizar
                                     </a>
                                     <a class="dropdown-item"
-                                       href="<?php echo ROUTE_URL?>/inventorys/update_password/<?php echo $inventory->idusuario?>"><i
-                                          class="fas fa-plus-circle"></i>Cargar
+                                       href="<?php echo ROUTE_URL?>/inventory/add_stock/<?php echo $inventory->idusuario?>"><i
+                                          class="fas fa-plus-circle"dropzone=""></i>Cargar
+
                                     </a>
                                     <a class="dropdown-item"
-                                       href="<?php echo ROUTE_URL?>/inventorys/disable/<?php echo $inventory->idusuario?>"><i
+                                       href="<?php echo ROUTE_URL?>/inventory/remove_stock/<?php echo $inventory->idusuario?>"><i
                                           class="fas fa-minus-circle"></i>Descartar
                                     </a>
                                 </div>
@@ -175,7 +176,6 @@
         </div>
     </div>
 </div>
-
 
 <?php require_once('../app/views/inc/footer.php');
 // Alertas

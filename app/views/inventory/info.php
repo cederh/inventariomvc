@@ -14,7 +14,7 @@
                 <p><b>Precio $: </b><?php echo $parameters['inventory']->precio?></p>
                 <p><b>Categoria: </b><?php echo $parameters['inventory']->nombre_categoria?></p>
                 <p><b>Proveedor: </b><?php echo $parameters['inventory']->nombre_proveedor?></p>
-                <p><b>Descripcion: </b><?php echo $parameters['inventory']->descripcion?></p>
+                <p><b>Descripcion: </b><?php echo $parameters['inventory']->descripcion_producto?></p>
             </div>
             <div class="col-md-6">
                   <p><b>Información de registro</b></p>

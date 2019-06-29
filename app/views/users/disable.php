@@ -8,20 +8,27 @@
             Regresar</a>
     </div>
     <div class="card-body">
-        <form action="<?php echo ROUTE_URL?>/users/update/<?php echo $parameters['user']->idusuario?>" method="post" id="form-usuario">
+      <div class="alert alert-warning">
+           <div class="alert_disable_user">
+               <i class="fas fa-exclamation-triangle" ></i>
+               ¿Esta seguro que decea desactivar este usuario?
+               <i class="fas fa-exclamation-triangle"></i>
+           </div>
+      </div>
+        <form action="<?php echo ROUTE_URL?>/users/disable/<?php echo $parameters['user']->idusuario?>" method="post" id="form-usuario">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                            <label for="nombre">Nombre</label>
                             <input type="text" required class="form-control form-control-alternative" id="nombre" name="nombre"
-                                placeholder="Nombre" value="<?php echo $parameters['user']->usu_nombre?>">
+                                placeholder="Nombre" value="<?php echo $parameters['user']->usu_nombre?>" disabled>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                            <label for="apellido">Apellido</label>
                             <input type="text" required class="form-control form-control-alternative" id="apellido"
-                                name="apellido" placeholder="Apellido" value="<?php echo $parameters['user']->usu_apellido?>">
+                                name="apellido" placeholder="Apellido" value="<?php echo $parameters['user']->usu_apellido?>" disabled>
                         </div>
                     </div>
                 </div>
@@ -31,11 +38,11 @@
                         <div class="form-group form-inline">
                             <div class="custom-control custom-radio mb-3 form-check-inline">
                                 <input name="genero" class="custom-control-input" id="hombre" value="1"
-                                type="radio" required <?php echo $var = ($parameters['user']->usu_genero == 1)?'checked':''?>>
+                                type="radio" disabled required <?php echo $var = ($parameters['user']->usu_genero == 1)?'checked':''?>>
                                 <label class="custom-control-label" for="hombre">Hombre</label>
                             </div>
                             <div class="custom-control custom-radio mb-3 form-check-inline">
-                                <input name="genero" class="custom-control-input" id="mujer" value="2"
+                                <input name="genero" disabled class="custom-control-input" id="mujer" value="2"
                                 type="radio" required <?php echo $var = ($parameters['user']->usu_genero == 2)?'checked':''?>>
                                 <label class="custom-control-label" for="mujer">Mujer</label>
                             </div>
@@ -45,7 +52,7 @@
                         <div class="form-group">
                            <label for="dui">Numero de DUI</label>
                             <input type="text" required class="form-control form-control-alternative" id="dui" name="dui"
-                                placeholder="DUI" value="<?php echo $parameters['user']->usu_dui?>">
+                                placeholder="DUI" value="<?php echo $parameters['user']->usu_dui?>" disabled>
                         </div>
                     </div>
                 </div>
@@ -54,25 +61,33 @@
                         <div class="form-group">
                            <label for="usuario">Nombre de Usuario</label>
                             <input type="text" required class="form-control form-control-alternative" id="user" name="user"
-                                placeholder="Usuario" value="<?php echo $parameters['user']->usu_usuario?>">
+                                placeholder="Usuario" value="<?php echo $parameters['user']->usu_usuario?>" disabled>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <label for="">Tipo de Usuario</label>
                         <div class="form-group form-inline">
                             <div class="custom-control custom-radio mb-3 form-check-inline">
-                                <input name="user_type" class="custom-control-input" id="estandar" value="1"
+                                <input name="user_type" disabled class="custom-control-input" id="estandar" value="1"
                                     type="radio" required <?php echo $var = ($parameters['user']->usu_tipo == 1)?'checked':''?>>
                                 <label class="custom-control-label" for="estandar">Estandar</label>
                             </div>
                             <div class="custom-control custom-radio mb-3 form-check-inline">
-                                <input name="user_type" class="custom-control-input" id="admin" value="2"
+                                <input name="user_type" disabled class="custom-control-input" id="admin" value="2"
                                 type="radio" required <?php echo $var = ($parameters['user']->usu_tipo == 2)?'checked':''?>>
                                 <label class="custom-control-label" for="admin">Admin</label>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    Si desactivas un usuario ya no podrá iniciar sesión en el sistema pero su información se conservara
+                    y podrá ser activado nuevamente
+                </div>
+            </div>
+        </div>
 
                 <!-- Alerta PHP -->
                 <?php if ($_SERVER['REQUEST_METHOD'] == 'POST' && $parameters['errores'] != ''):?>
@@ -94,7 +109,10 @@
                     </div>
                 </div>
 
-                <input type="submit" class="btn btn-primary" name="guardar" value="Guardar">
+                 <input type="text" style="display: none" name="estado" id="estado" value="<?php echo $parameters['user']->idusuario ?>">
+                 <input type="submit" class="btn btn-danger" name="guardar" value="Guardar">
+                 <a type="button" class="btn btn-default" href="<?php echo ROUTE_URL?>/users">Cerrar</a>
+
         </form>
     </div>
 </div>

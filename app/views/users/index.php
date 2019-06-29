@@ -228,50 +228,33 @@
                                 <th scope="col">Sexo</th>
                                 <th scope="col">Usuario</th>
                                 <th scope="col">Tipo</th>
-                                <th scope="col"></th>
+                                <th scope="col">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($parameters['disable'] as $key => $disable):?>
                             <tr>
                                 <td>
-                                    Wilber Méndez
+                                    <?php echo $disable->usu_nombre . ' ' . $disable->usu_apellido?>
                                 </td>
                                 <td>
-                                    Hombre
+                                    <?php echo $var = ($disable->usu_genero == 1 )?'Hombre' : 'Mujer' ?>
                                 </td>
                                 <td>
-                                    tmsh
+                                    <?php echo $disable->usu_usuario?>
                                 </td>
                                 <td>
-                                    Administrador
+                                    <?php echo $var = ($disable->usu_tipo == 2)?'Administrador':'Estandar'?>
                                 </td>
-                                <td class="text-right">
-                                    <button class="btn btn-icon btn-2 btn-sm btn-success" type="button"> <i
-                                            class="fas fa-plus-circle"></i> </button>
+                                  <td class="text-right">
+                                       <button class="btn btn-icon btn-2 btn-sm btn-success" type="button"> <i
+                                              class="fas fa-plus-circle"></i> </button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    Yanci Martínez
-                                </td>
-                                <td>
-                                    Mujer
-                                </td>
-                                <td>
-                                    yanci
-                                </td>
-                                <td>
-                                    Estandar
-                                </td>
-                                <td class="text-right">
-                                    <button class="btn btn-icon btn-2 btn-sm btn-success" type="button"> <i
-                                            class="fas fa-plus-circle"></i> </button>
-                                </td>
-                            </tr>
+                            <?php endforeach;?>
                         </tbody>
                     </table>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

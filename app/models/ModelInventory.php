@@ -49,7 +49,7 @@ class ModelInventory{
 
    public function add_inventory($inventory){
       $this->db->query('INSERT INTO tbl_inventario(
-                        nombre_producto, stock, precio, idcategoria, idproveedor, idusuario, descripcion, fecha_mod)
+                        nombre_producto, stock, precio, idcategoria, idproveedor, idusuario, descripcion_producto, fecha_mod)
                         VALUES(:nombre, :cantidad, :precio, :categoria, :proveedor, :idusuario, :descripcion, NOW())');
 
       $this->db->bind(':nombre',$inventory['nombre']);
@@ -67,23 +67,63 @@ class ModelInventory{
       }
    }
 
-   // public function update_category($id, $categories){
-   //    $this->db->query("UPDATE tbl_categoria
-   //                      SET nombre = :nombre, descripcion = :descripcion, idusuario = :idusuario, fecha_mod = NOW()
-   //                      WHERE idcategoria = :id
-   //                   ");
-   //
-   //    $this->db->bind(':nombre',$categories['nombre']);
-   //    $this->db->bind(':descripcion',$categories['descripcion']);
-   //    $this->db->bind(':idusuario',$categories['idusuario']);
-   //
-   //    $this->db->bind(':id', $id);
-   //
-   //    if ($this->db->execute()) {
-   //       return true;
-   //    }else {
-   //       return false;
-   //    }
-   // }
+   public function update_product($id, $inventory){
+      $this->db->query("UPDATE tbl_inventario
+                        SET nombre_producto = :nombre, precio = :precio, idcategoria = :categoria, idproveedor = :proveedor, idusuario = :idusuario, descripcion_producto = :descripcion, fecha_mod = NOW()
+                        WHERE idproducto = :id
+                     ");
+
+      $this->db->bind(':nombre',$inventory['nombre']);
+      $this->db->bind(':precio',$inventory['precio']);
+      $this->db->bind(':categoria',$inventory['categoria']);
+      $this->db->bind(':proveedor',$inventory['proveedor']);
+      $this->db->bind(':descripcion',$inventory['descripcion']);
+      $this->db->bind(':idusuario',$inventory['idusuario']);
+
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+         return true;
+      }else {
+         return false;
+      }
+   }
+
+   public function add_stock($id, $inventory){
+      $this->db->query("UPDATE tbl_inventario
+                        SET stock = (:cantidad+:stockplus), idusuario = :idusuario, fecha_mod = NOW()
+                        WHERE idproducto = :id
+                     ");
+      $this->db->bind(':cantidad',$inventory['cantidad']);
+      $this->db->bind(':stockplus',$inventory['stockplus']);
+      $this->db->bind(':idusuario',$inventory['idusuario']);
+
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+         return true;
+      }else {
+         return false;
+      }
+   }
+
+   public function remove_stock($id, $inventory){
+      $this->db->query("UPDATE tbl_inventario
+                        SET stock = (:cantidad - :stockplus), idusuario = :idusuario, fecha_mod = NOW()
+                        WHERE idproducto = :id
+                     ");
+      $this->db->bind(':cantidad',$inventory['cantidad']);
+      $this->db->bind(':stockplus',$inventory['stockplus']);
+
+      $this->db->bind(':idusuario',$inventory['idusuario']);
+
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+         return true;
+      }else {
+         return false;
+      }
+   }
 }
  ?>
