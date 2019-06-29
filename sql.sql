@@ -1,681 +1,245 @@
--- Creacion de la base de datos
--- --------------------------------------------------
--- Aumentamos el numero de divice permitidos a 20
-sp_configure "number of devices", 20
-GO
-use master
-GO
--- Creamos los divice (tablespace) para datos y para log
-disk init name='friday_dat', physname='/opt/sap/data/friday_dat.dat', size='50m'
-GO
-disk init name='friday_log', physname='/opt/sap/data/friday_log.dat', size='50m'
-GO
--- Creamos la base de datos utilizando los divice creados previamente
-create database dbfriday
-on friday_dat = 50
-log on friday_log = 50
-GO
-
--- Creacion de tablas
--- -------------------------------------------------------
--- Tabla usuarios
-CREATE TABLE dbfriday.dbo.tbl_users (
-	id_user int,
-	name varchar(50) NOT NULL,
-	last_name varchar(50) NOT NULL,
-	birthdate date NOT NULL,
-	gender int NOT NULL,
-	email varchar(20) NOT NULL,
-	password varchar(128) NOT NULL,
-	user_type int NOT NULL,
-	status int NOT NULL,
-	CONSTRAINT tbl_users_PK PRIMARY KEY (id_user)
-)
-GO
-
--- Tabla respuestas
-CREATE TABLE dbfriday.dbo.tbl_answers (
-	id_answer int NOT NULL,
-	id_user int NOT NULL,
-	answer varchar(500) NOT NULL,
-	n_keywords int NOT NULL,
-	insert_date datetime NOT NULL,
-	id_user_update int,
-	update_date datetime,
-	CONSTRAINT tbl_answers_PK PRIMARY KEY (id_answer),
-	CONSTRAINT tbl_answers_FK FOREIGN KEY (id_user) REFERENCES dbfriday.dbo.tbl_users(id_user)
-)
-GO
-
--- Tabla palabras claves
-CREATE TABLE dbfriday.dbo.tbl_keywords (
-	id_keyword int,
-	id_answer int NOT NULL,
-	keyword varchar(25) NOT NULL,
-	CONSTRAINT tbl_keywords_PK PRIMARY KEY (id_keyword),
-	CONSTRAINT tbl_keywords_tbl_answers_FK FOREIGN KEY (id_answer) REFERENCES dbfriday.dbo.tbl_answers(id_answer)
-)
-GO
--- Tabla pacientes
-CREATE TABLE dbfriday.dbo.tbl_patient (
-	id_patient int NOT NULL,
-	name varchar(50),
-	last_name varchar(50),
-	birthdate date,
-	gender int,
-	personality varchar(1),
-	ci int,
-	[character] varchar(1),
-	email varchar(20),
-	password varchar(128),
-	id_user int,
-	insert_date datetime,
-	id_user_update int,
-	update_date datetime,
-	CONSTRAINT tbl_patient_PK PRIMARY KEY (id_patient),
-	CONSTRAINT tbl_patient_FK FOREIGN KEY (id_user) REFERENCES dbfriday.dbo.tbl_users(id_user)
-)
-GO
-
--- Tabla historial
-CREATE TABLE dbfriday.dbo.tbl_chat_history (
-	id_chat_history int,
-	id_patient int NOT NULL,
-	message varchar(500) NOT NULL,
-	id_answer int NOT NULL,
-	update_date datetime NOT NULL,
-	CONSTRAINT tbl_chat_history_PK PRIMARY KEY (id_chat_history),
-	CONSTRAINT tbl_chat_history_tbl_patient_FK FOREIGN KEY (id_patient) REFERENCES dbfriday.dbo.tbl_patient(id_patient),
-	CONSTRAINT tbl_chat_history_tbl_answers_FK FOREIGN KEY (id_answer) REFERENCES dbfriday.dbo.tbl_answers(id_answer)
-)
-GO
-
--- Tabla para almacenar preguntas para los test
-CREATE TABLE dbfriday.dbo.id_tests_questions (
-	id_questions int NOT NULL,
-	questions varchar(100) NOT NULL,
-	answer varchar(100) NOT NULL,
-	tests_type int NOT NULL,
-	id_user int NOT NULL,
-	insert_date datetime NOT NULL,
-	id_user_update int,
-	update_date datetime,
-	CONSTRAINT id_tests_questions_PK PRIMARY KEY (id_questions),
-	CONSTRAINT id_tests_questions_FK FOREIGN KEY (id_user) REFERENCES dbfriday.dbo.tbl_users(id_user)
-)
-GO
-
--- Tabla bitacora
-CREATE TABLE dbfriday.dbo.tbl_binnacle (
-	id_binnacle int NOT NULL,
-	operation varchar(10) NOT NULL,
-	table_name varchar(20) NOT NULL,
-	new_data varchar(1000) NOT NULL,
-	old_data varchar(1000) NOT NULL,
-	dt datetime NOT NULL
-)
-GO
-
-USE dbfriday
-GO
-
--- Insersion de datos
--- ------------------------------------------------------------
-
--- Insertar datos de usuarios
-INSERT INTO dbfriday.dbo.tbl_users (id_user, name, last_name, birthdate, gender, email, password, user_type, status) VALUES(1, 'Wilber', 'Mendez', '1994-06-30', 1, 'mendezwilber94@gmail.com', 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 2, 1)
-GO
-INSERT INTO dbfriday.dbo.tbl_users (id_user, name, last_name, birthdate, gender, email, password, user_type, status) VALUES(2, 'Yanci', 'Martinez', '1990-01-01', 2, 'yanci@gmail.com', 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 1, 1)
-GO
-INSERT INTO dbfriday.dbo.tbl_users (id_user, name, last_name, birthdate, gender, email, password, user_type, status) VALUES(3, 'Carlos', 'Hernandez', '1994-01-01', 1, 'carlos@gmail.com', 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 2, 1)
-GO
-
--- Insertar datos de pacientes
-INSERT INTO dbfriday.dbo.tbl_patient (id_patient, name, last_name, birthdate, gender, personality, ci, [character], email, password, id_user, insert_date, id_user_update, update_date) VALUES(1, 'Luis Fernando', 'Hernandez', '1991-04-01', 1, '', '', '', 'luis@gmail.com', 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 1, '2019-06-08 16:57:00.693', 1, '2019-06-15 16:54:01.520')GO
-INSERT INTO dbfriday.dbo.tbl_patient (id_patient, name, last_name, birthdate, gender, personality, ci, [character], email, password, id_user, insert_date, id_user_update, update_date) VALUES(2, 'Duglas', 'Diaz Baraona', '1994-01-01', 1, '', '', '', 'duglas@gmail.com', 'b82a8925de8a50a532dbb936438c52f6485b537b6e6cbf561671f4cc598bae4ee719607246db1c01dbe06ea9069465b618f37ebf20a7a113dc960f33f9b1c565', 1, '2019-06-08 17:36:27.897', 1, '2019-06-11 11:35:52.343')GO
-INSERT INTO dbfriday.dbo.tbl_patient (id_patient, name, last_name, birthdate, gender, personality, ci, [character], email, password, id_user, insert_date, id_user_update, update_date) VALUES(3, 'Yolani', 'Rodriguez', '2001-05-04', 2, '', '', '', 'maribel@gmail.com', '471d4fb1dd176cfe225eb45977a9c7fa5db9ace8b7fb21588b79de3f4449c359e096c60eedaa7174291090ceac04b32d393a7ce6991b87c4a7ad1347097b15be', 1, '2019-06-08 17:39:54.167', 1, '2019-06-08 17:39:54.167')GO
-
--- Insertar respuestas
-INSERT INTO dbfriday.dbo.tbl_answers (id_answer, id_user, answer, n_keywords, insert_date, id_user_update, update_date) VALUES(1, 1, 'Hola, ¿Como puedo ayudarte?', 1, '2019-06-02 17:50:21.133', 3, '2019-06-02 17:51:58.000')GO
-INSERT INTO dbfriday.dbo.tbl_answers (id_answer, id_user, answer, n_keywords, insert_date, id_user_update, update_date) VALUES(2, 1, 'Puedo ayudarte a encontrar la solución a tus problemas mediante una terapia de escucha activa, habla conmigo, puedo ayudarte a sentirte mejor.', 3, '2019-06-05 08:46:39.000', 1, '2019-06-05 08:46:39.000')GO
-INSERT INTO dbfriday.dbo.tbl_answers (id_answer, id_user, answer, n_keywords, insert_date, id_user_update, update_date) VALUES(3, 1, 'También puedo aplicarte algunos test como de personalidad, carácter o medir tu coeficiente intelectual mediante una prueba.', 4, '2019-06-05 08:52:40.000', 1, '2019-06-05 08:52:40.000')GO
-INSERT INTO dbfriday.dbo.tbl_answers (id_answer, id_user, answer, n_keywords, insert_date, id_user_update, update_date) VALUES(4, 1, 'Aun estoy en desarrollo por lo cual no tengo un nombre definido, pero puedes llamarme "Viernes".', 3, '2019-06-08 09:25:15.000', 1, '2019-06-08 09:25:30.000')GO
-INSERT INTO dbfriday.dbo.tbl_answers (id_answer, id_user, answer, n_keywords, insert_date, id_user_update, update_date) VALUES(5, 1, 'Muy bien ¿y tu?', 2, '2019-06-08 09:53:01.000', 1, '2019-06-08 09:53:16.000')GO
-INSERT INTO dbfriday.dbo.tbl_answers (id_answer, id_user, answer, n_keywords, insert_date, id_user_update, update_date) VALUES(6, 1, 'Me alegro de que estes bien.', 1, '2019-06-08 09:53:51.000', 1, '2019-06-08 09:54:06.000')GO
-INSERT INTO dbfriday.dbo.tbl_answers (id_answer, id_user, answer, n_keywords, insert_date, id_user_update, update_date) VALUES(7, 1, 'por la distorcion de la luz en la admosfera terrestre.', 5, '2019-06-15 16:38:52.757', 1, '2019-06-15 16:38:52.757')GO
-
--- Insertar palabras clave
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(1, 1, 'HOLA')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(2, 2, 'QUE')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(3, 2, 'PUEDES')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(4, 2, 'HACER')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(5, 3, 'QUE')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(6, 3, 'MAS')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(8, 3, 'HACER')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(9, 3, 'OTRAS')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(10, 3, 'COSAS')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(11, 4, 'COMO')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(12, 4, 'TE')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(13, 4, 'LLAMAS')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(14, 4, 'CUAL')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(15, 4, 'ES')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(16, 4, 'TU')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(17, 4, 'NOMBRE')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(18, 5, 'COMO')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(19, 5, 'ESTAS')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(20, 6, 'MUY')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(21, 6, 'BIEN')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(22, 6, 'TAMBIEN')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(23, 7, 'PORQUE')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(24, 7, 'EL')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(25, 7, 'CIELO')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(26, 7, 'ES')GO
-INSERT INTO dbfriday.dbo.tbl_keywords (id_keyword, id_answer, keyword) VALUES(27, 7, 'AZUL')GO
-
-
-
--- Creacion de procedimientos
--- -------------------------------------------------------------
-
--- Procedimiento para guardar un nuevo usuario
-CREATE OR REPLACE proc add_user
-	@name VARCHAR(45),
-	@last_name VARCHAR(45),
-	@birthdate DATE,
-	@gender VARCHAR(1),
-	@email VARCHAR(50),
-	@password VARCHAR(400),
-	@user_type VARCHAR(1)
-AS
-BEGIN
---	Declaramos variable para obtener el id anterior
-	DECLARE @id int
-
---	Obtenemos el id anterior
-	SELECT @id = MAX(id_user)
-	FROM dbfriday.dbo.tbl_users
-
--- guardamos los datos del usuario
-	INSERT INTO dbfriday.dbo.tbl_users
-	(id_user, name, last_name, birthdate, gender, email, password, user_type, status)
-	VALUES(@id + 1, @name, @last_name, @birthdate, CONVERT(int, @gender), @email, @password, CONVERT(int, @user_type), 1)
-END
-GO
-
-
--- Procedimiento para modificar usuario
-CREATE OR REPLACE proc update_user
-	@name VARCHAR(45),
-	@last_name VARCHAR(45),
-	@birthdate DATE,
-	@gender VARCHAR(1),
-	@email VARCHAR(50),
-	@user_type VARCHAR(1),
-	@id VARCHAR(10)
-AS
-BEGIN
--- guardamos los datos del usuario
-	UPDATE dbfriday.dbo.tbl_users
-	SET name=@name, last_name=@last_name, birthdate = @birthdate, gender=CONVERT(int, @gender), email=@email, user_type=CONVERT(int, @user_type)
-	WHERE id_user=CONVERT(int, @id)
-END
-GO
-
--- Procedimiento para desactivar usuario
-CREATE OR REPLACE proc disable_user
-	@id VARCHAR(10)
-AS
-BEGIN
--- cambiamos el estado del usuario
-	UPDATE dbfriday.dbo.tbl_users
-	SET status = 0
-	WHERE id_user=CONVERT(int, @id)
-END
-GO
-
-
--- Procedimiento para activar usuarios
-CREATE OR REPLACE proc enable_user
-	@id VARCHAR(10)
-AS
-BEGIN
--- cambiamos el estado del usuario
-	UPDATE dbfriday.dbo.tbl_users
-	SET status = 1
-	WHERE id_user=CONVERT(int, @id)
-END
-GO
-
--- Procedimiento para Actualizar contraseña
-CREATE OR REPLACE proc update_password
-	@password VARCHAR(400),
-	@id VARCHAR(10)
-AS
-BEGIN
--- guardamos la contraseña del usuario
-	UPDATE dbfriday.dbo.tbl_users
-	SET password=@password
-	WHERE id_user=CONVERT(int, @id)
-END
-GO
-
--- Procedimiento para guardar una nueva respuesta
-CREATE OR REPLACE proc add_answer
-	@id_user VARCHAR(11),
-	@answer VARCHAR(500),
-	@id_user_update VARCHAR(11)
-
-AS
-BEGIN
---	Declaramos variable para obtener el id anterior
-	DECLARE @id int
-
---	Obtenemos el id anterior
-	SELECT @id = isNull(MAX(id_user), 0) + 1
-	FROM dbfriday.dbo.tbl_answers
-
--- guardamos los datos del usuario
-	INSERT INTO dbfriday.dbo.tbl_answers
-	(id_answer, id_user, answer, insert_date, id_user_update, update_date)
-	VALUES(@id, CONVERT(INT, @id_user), @answer, getdate(), CONVERT(INT, @id_user), getdate())
-END
-GO
-
--- Procedimiento para guardar una palabra clave
-CREATE OR REPLACE proc add_keyword
-	@id_answer INT,
-	@keyword VARCHAR(25)
-AS
-BEGIN
---	Declaramos variable para obtener el id anterior
-	DECLARE @id int
-
---	Obtenemos el id anterior
-	SELECT @id = isNull(MAX(id_keyword), 0) + 1
-	FROM dbfriday.dbo.tbl_keywords
-
--- guardamos los datos del usuario
-	INSERT INTO dbfriday.dbo.tbl_keywords
-	(id_keyword, id_answer, keyword)
-	VALUES(@id, @id_answer, @keyword)
-END
-GO
-
--- Procedimiento para guardar un nuevo paciente
-CREATE OR REPLACE proc add_patient
-	@name VARCHAR(45),
-	@last_name VARCHAR(45),
-	@birthdate DATE,
-	@gender VARCHAR(1),
-	@email VARCHAR(50),
-	@password VARCHAR(400),
-	@id_user INT
-AS
-BEGIN
---	Declaramos variable para obtener el id anterior
-	DECLARE @id int
-
---	Obtenemos el id anterior
-	SELECT @id = isNull(MAX(id_patient), 0) + 1
-	FROM dbfriday.dbo.tbl_patient
-
--- guardamos los datos del paciente
-	INSERT INTO dbfriday.dbo.tbl_patient
-	(id_patient, name, last_name, birthdate, gender, personality, ci, [character], email, password, id_user, insert_date, id_user_update, update_date)
-	VALUES(@id, @name, @last_name, @birthdate, CONVERT(INT, @gender), '', '', '', @email, @password, CONVERT(INT, @id_user), getdate(), CONVERT(INT, @id_user), getdate())
-
-END
-GO
-
--- Procedimiento para Actualizar Pacientes
-CREATE OR REPLACE proc update_patient
-@name VARCHAR(45),
-@last_name VARCHAR(45),
-@birthdate DATE,
-@gender VARCHAR(1),
-@email VARCHAR(50),
-@id_user INT,
-@id VARCHAR(10)
-AS
-BEGIN
--- guardamos los datos del Paciente
-UPDATE dbfriday.dbo.tbl_patient
-SET name=@name, last_name=@last_name, birthdate = @birthdate, gender=CONVERT(int, @gender), email=@email, id_user_update=@id_user, update_date=getdate()
-WHERE id_patient=CONVERT(int, @id)
-END
-
--- Procedimiento para Actualizar contraseña de los Pacientes
-CREATE OR REPLACE proc update_passwordPatient
-	@password VARCHAR(400),
-	@id_user INT,
-	@id VARCHAR(10)
-AS
-BEGIN
--- guardamos la contraseña del Paciente
-	UPDATE dbfriday.dbo.tbl_patient
-	SET password=@password, id_user_update=@id_user, update_date=getdate()
-	WHERE id_patient=CONVERT(int, @id)
-END
-GO
-
--- Procedimiento para guardar un nuevo paciente
-CREATE OR REPLACE proc add_acount
-	@name VARCHAR(45),
-	@last_name VARCHAR(45),
-	@birthdate DATE,
-	@gender VARCHAR(1),
-	@email VARCHAR(50),
-	@password VARCHAR(400)
-AS
-BEGIN
---	Declaramos variable para obtener el id anterior
-	DECLARE @id int
-
---	Obtenemos el id anterior
-	SELECT @id = isNull(MAX(id_patient), 0) + 1
-	FROM dbfriday.dbo.tbl_patient
-
--- guardamos los datos del paciente
-	INSERT INTO dbfriday.dbo.tbl_patient
-	(id_patient, name, last_name, birthdate, gender, personality, ci, [character], email, password, id_user, insert_date, id_user_update, update_date)
-	VALUES(@id, @name, @last_name, @birthdate, CONVERT(INT, @gender), '', '', '', @email, @password, 1, getdate(), 1, getdate())
-
-END
-GO
-
--- Procedimiento para que el paciente actualice sus datos.
-CREATE OR REPLACE proc update_acount
-@name VARCHAR(45),
-@last_name VARCHAR(45),
-@birthdate DATE,
-@gender VARCHAR(1),
-@email VARCHAR(50),
-@id VARCHAR(10)
-AS
-BEGIN
--- guardamos los datos del Paciente
-UPDATE dbfriday.dbo.tbl_patient
-SET name=@name, last_name=@last_name, birthdate = @birthdate, gender=CONVERT(int, @gender), email=@email, id_user_update=1, update_date=getdate()
-WHERE id_patient=CONVERT(int, @id)
-END
-
--- Procedimiento para que el paciente actualice su contraseña
-CREATE OR REPLACE proc update_passwordAcount
-	@password VARCHAR(400),
-	@id VARCHAR(10)
-AS
-BEGIN
--- guardamos la contraseña del Paciente
-	UPDATE dbfriday.dbo.tbl_patient
-	SET password=@password, id_user_update=1, update_date=getdate()
-	WHERE id_patient=CONVERT(int, @id)
-END
-GO
-
--- TRIGGERS
--- -----------------------------------------------------------
-
--- Triger para la tabla tbl_users INSERT
-CREATE OR REPLACE TRIGGER dbo.tg_insert_users
-ON dbo.tbl_users
-FOR INSERT
-AS
--- Declaramos variables
-	DECLARE @new_id INT, @new_name VARCHAR(45), @new_last_name VARCHAR(45), @new_birthdate DATE,
-	@new_gender INT, @new_email VARCHAR(50), @new_user_type INT, @new_status INT, @id INT,
-	@new_data VARCHAR(300)
-
---	Obtenemos los datos nuevos
-	SELECT @new_id = id_user, @new_name = name, @new_last_name = last_name, @new_birthdate = birthdate,
-	@new_gender = gender, @new_email = email, @new_user_type = user_type, @new_status = status
-	FROM inserted
-
--- creamos la cadena de los datos nuevos
-	SET @new_data = 'id_user = ' + convert(varchar, @new_id) + '| name = ' + @new_name +
-	'| last_name = ' + @new_last_name + '| birthdate = ' + CONVERT(VARCHAR, @new_birthdate) +
-	'| gender = ' +	CONVERT(VARCHAR, @new_gender) + '| email = ' + @new_email + '| user_type = ' +
-	CONVERT(VARCHAR, @new_user_type) + '| status = ' + CONVERT(VARCHAR, @new_status)
-
--- Obtenemos el id de la bitacora
-	SELECT @id = isNull(MAX(id_binnacle), 0)
-	FROM dbfriday.dbo.tbl_binnacle
-
-	INSERT INTO dbo.tbl_binnacle(id_binnacle, operation, table_name, new_data, old_data, dt)
-	VALUES(@id + 1, 'INSERT', 'TBL_USERS', @new_data , '', getdate())
-GO
-
--- Triger para la tabla tbl_users UPDATE
-CREATE OR REPLACE TRIGGER dbo.tg_update_users
-ON dbo.tbl_users
-FOR UPDATE
-AS
--- Declaramos variables
-	DECLARE @old_id INT, @old_name VARCHAR(45), @old_last_name VARCHAR(45), @old_birthdate DATE,
-	@old_gender INT, @old_email VARCHAR(50), @old_user_type INT, @old_status INT,
-	@new_id INT, @new_name VARCHAR(45), @new_last_name VARCHAR(45), @new_birthdate DATE,
-	@new_gender INT, @new_email VARCHAR(50), @new_user_type INT, @new_status INT, @id INT,
-	@old_data VARCHAR(300), @new_data VARCHAR(300)
-
---	Obtenemos los datos viejos
-	SELECT @old_id = id_user, @old_name = name, @old_last_name = last_name, @old_birthdate = birthdate,
-	@old_gender = gender, @old_email = email, @old_user_type = user_type, @old_status = status
-	FROM deleted
-
--- creamos la cadena de los datos viejos
-	SET @old_data = 'id_user = ' + convert(varchar, @old_id) + '| name = ' + @old_name +
-	'| last_name = ' + @old_last_name + '| birthdate = ' + CONVERT(VARCHAR, @old_birthdate) +
-	'| gender = ' +	CONVERT(VARCHAR, @old_gender) + '| email = ' + @old_email + '| user_type = ' +
-	CONVERT(VARCHAR, @old_user_type) + '| status = ' + CONVERT(VARCHAR, @old_status)
-
---	Obtenemos los datos nuevos
-	SELECT @new_id = id_user, @new_name = name, @new_last_name = last_name, @new_birthdate = birthdate,
-	@new_gender = gender, @new_email = email, @new_user_type = user_type, @new_status = status
-	FROM inserted
-
--- creamos la cadena de los datos nuevos
-	SET @new_data = 'id_user = ' + convert(varchar, @new_id) + '| name = ' + @new_name +
-	'| last_name = ' + @new_last_name + '| birthdate = ' + CONVERT(VARCHAR, @new_birthdate) +
-	'| gender = ' +	CONVERT(VARCHAR, @new_gender) + '| email = ' + @new_email + '| user_type = ' +
-	CONVERT(VARCHAR, @new_user_type) + '| status = ' + CONVERT(VARCHAR, @new_status)
-
--- Obtenemos el id de la bitacora
-	SELECT @id = isNull(MAX(id_binnacle), 0)
-	FROM dbfriday.dbo.tbl_binnacle
-
-	INSERT INTO dbo.tbl_binnacle(id_binnacle, operation, table_name, new_data, old_data, dt)
-	VALUES(@id + 1, 'UPDATE', 'TBL_USERS', @new_data , @old_data, getdate())
-GO
-
--- Triger para la tabla TBL_ANSWER INSERT
-CREATE OR REPLACE TRIGGER dbo.tg_insert_answer
-ON dbo.tbl_answers
-FOR INSERT
-AS
--- Declaramos variables
-	DECLARE @new_id INT, @new_id_user INT, @new_answer VARCHAR(500), @new_insert_date DATETIME,
-	@new_id_user_update INT, @new_update_date DATETIME, @new_data VARCHAR(400), @id INT
-
---	Obtenemos los datos nuevos
-	SELECT @new_id = id_answer, @new_id_user = id_user, @new_answer = answer, @new_insert_date = insert_date,
-	@new_id_user_update = id_user_update, @new_update_date = update_date
-	FROM inserted
-
--- creamos la cadena de los datos nuevos
-	SET @new_data = 'id_answer = ' + convert(varchar, @new_id) + '| id_user = ' +
-	CONVERT(varchar, @new_id_user) + '| answer = ' + @new_answer + '| insert_date = '
-	+ CONVERT(VARCHAR, @new_insert_date) + '| id_user_update = ' +	CONVERT(VARCHAR, @new_id_user_update) +
-	'| update_date = ' + CONVERT(VARCHAR, @new_update_date)
-
--- Obtenemos el id de la bitacora
-	SELECT @id = isNull(MAX(id_binnacle), 0)
-	FROM dbfriday.dbo.tbl_binnacle
-
-	INSERT INTO dbo.tbl_binnacle(id_binnacle, operation, table_name, new_data, old_data, dt)
-	VALUES(@id + 1, 'INSERT', 'TBL_ANSWERS', @new_data , '', getdate())
-GO
-
--- Trigger para la tabla TBL_ANSWER UPDATE
-CREATE OR REPLACE TRIGGER dbo.tg_update_answer
-ON dbo.tbl_answers
-FOR UPDATE
-AS
--- Declaramos variables
-	DECLARE @new_id INT, @new_id_user INT, @new_answer VARCHAR(500), @new_insert_date DATETIME,
-	@new_id_user_update INT, @new_update_date DATETIME, @new_data VARCHAR(400),
-    @old_id INT, @old_id_user INT, @old_answer VARCHAR(500), @old_insert_date DATETIME,
-	@old_id_user_update INT, @old_update_date DATETIME, @old_data VARCHAR(400),
-    @id INT
-
---	Obtenemos los datos nuevos
-	SELECT @new_id = id_answer, @new_id_user = id_user, @new_answer = answer, @new_insert_date = insert_date,
-	@new_id_user_update = id_user_update, @new_update_date = update_date
-	FROM inserted
-
--- creamos la cadena de los datos nuevos
-	SET @new_data = 'id_answer = ' + convert(varchar, @new_id) + '| id_user = ' +
-	CONVERT(varchar, @new_id_user) + '| answer = ' + @new_answer + '| insert_date = '
-	+ CONVERT(VARCHAR, @new_insert_date) + '| id_user_update = ' +	CONVERT(VARCHAR, @new_id_user_update) +
-	'| update_date = ' + CONVERT(VARCHAR, @new_update_date)
-
---	Obtenemos los datos viejos
-	SELECT @old_id = id_answer, @old_id_user = id_user, @old_answer = answer, @old_insert_date = insert_date,
-	@old_id_user_update = id_user_update, @old_update_date = update_date
-	FROM deleted
-
--- creamos la cadena de los datos viejos
-	SET @old_data = 'id_answer = ' + convert(varchar, @old_id) + '| id_user = ' +
-	CONVERT(varchar, @old_id_user) + '| answer = ' + @old_answer + '| insert_date = '
-	+ CONVERT(VARCHAR, @old_insert_date) + '| id_user_update = ' +	CONVERT(VARCHAR, @old_id_user_update) +
-	'| update_date = ' + CONVERT(VARCHAR, @old_update_date)
-
--- Obtenemos el id de la bitacora
-	SELECT @id = isNull(MAX(id_binnacle), 0)
-	FROM dbfriday.dbo.tbl_binnacle
-
-	INSERT INTO dbo.tbl_binnacle(id_binnacle, operation, table_name, new_data, old_data, dt)
-	VALUES(@id + 1, 'UPDATE', 'TBL_ANSWERS', @new_data , @old_data, getdate())
-GO
-
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
--- poner aqui triggers para palabras claves
--- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
--- Triger para la tabla tbl_patient INSERT
-CREATE OR REPLACE TRIGGER dbo.tg_insert_patient
-ON dbo.tbl_patient
-FOR INSERT
-AS
--- Declaramos variables
-	DECLARE
-	@new_id INT,
-	@new_name VARCHAR(45),
-	@new_last_name VARCHAR(45),
-	@new_birthdate DATE,
-	@new_gender INT,
-	@new_personality VARCHAR(45),
-	@new_ci VARCHAR(45),
-	@new_character VARCHAR(45),
-	@new_email VARCHAR(50),
-	@new_id_user INT,
-	@new_insert_date DATETIME,
-	@new_id_user_update INT,
-	@new_update_date DATETIME,
-	@id INT,
-	@new_data VARCHAR(400)
-
---	Obtenemos los datos nuevos
-	SELECT @new_id = id_patient, @new_name = name, @new_last_name = last_name, @new_birthdate = birthdate,
-	@new_gender = gender, @new_personality = personality, @new_ci = ci, @new_character = [character],
-	@new_email = email, @new_id_user =  id_user, @new_insert_date =  insert_date,
-	@new_id_user_update =  id_user_update, @new_update_date  = update_date
-	FROM inserted
-
-
--- creamos la cadena de los datos nuevos
-	SET @new_data = 'id_user = ' + CONVERT(VARCHAR, @new_id) + '| name = ' + @new_name + '| last_name = ' + @new_last_name +
-	'| birthdate = ' + CONVERT(VARCHAR, @new_birthdate) + '| gender = ' + CONVERT(VARCHAR, @new_gender) + '| personality = ' + @new_personality +
-	'| ci = ' + @new_ci + '| character = ' + @new_character + '| email = ' + @new_email + '| id_user = ' + CONVERT(VARCHAR, @new_id_user) +
-	'| insert_date = ' + CONVERT(VARCHAR, @new_insert_date) + '| id_user_update = ' + CONVERT(VARCHAR, @new_id_user_update) +
-	'| update_date = ' + CONVERT(VARCHAR, @new_update_date)
-
--- Obtenemos el id de la bitacora
-	SELECT @id = isNull(MAX(id_binnacle), 0)
-	FROM dbfriday.dbo.tbl_binnacle
-
-	INSERT INTO dbo.tbl_binnacle(id_binnacle, operation, table_name, new_data, old_data, dt)
-	VALUES(@id + 1, 'INSERT', 'TBL_PATIENT', @new_data , '', getdate())
-GO
-
--- Triger para la tabla tbl_patient UPDATE
-CREATE OR REPLACE TRIGGER dbo.tg_update_patient
-ON dbo.tbl_patient
-FOR UPDATE
-AS
--- Declaramos variables
-	DECLARE
-	@new_id INT,
-	@new_name VARCHAR(45),
-	@new_last_name VARCHAR(45),
-	@new_birthdate DATE,
-	@new_gender INT,
-	@new_personality VARCHAR(45),
-	@new_ci VARCHAR(45),
-	@new_character VARCHAR(45),
-	@new_email VARCHAR(50),
-	@new_id_user INT,
-	@new_insert_date DATETIME,
-	@new_id_user_update INT,
-	@new_update_date DATETIME,
-	@old_id INT,
-	@old_name VARCHAR(45),
-	@old_last_name VARCHAR(45),
-	@old_birthdate DATE,
-	@old_gender INT,
-	@old_personality VARCHAR(45),
-	@old_ci VARCHAR(45),
-	@old_character VARCHAR(45),
-	@old_email VARCHAR(50),
-	@old_id_user INT,
-	@old_insert_date DATETIME,
-	@old_id_user_update INT,
-	@old_update_date DATETIME,
-	@id INT,
-	@new_data VARCHAR(400),
-	@old_data VARCHAR(400)
-
---	Obtenemos los datos nuevos
-	SELECT @new_id = id_patient, @new_name = name, @new_last_name = last_name, @new_birthdate = birthdate,
-	@new_gender = gender, @new_personality = personality, @new_ci = ci, @new_character = [character],
-	@new_email = email, @new_id_user =  id_user, @new_insert_date =  insert_date,
-	@new_id_user_update =  id_user_update, @new_update_date  = update_date
-	FROM inserted
-
-
--- creamos la cadena de los datos nuevos
-	SET @new_data = 'id_user = ' + CONVERT(VARCHAR, @new_id) + '| name = ' + @new_name + '| last_name = ' + @new_last_name +
-	'| birthdate = ' + CONVERT(VARCHAR, @new_birthdate) + '| gender = ' + CONVERT(VARCHAR, @new_gender) + '| personality = ' + @new_personality +
-	'| ci = ' + @new_ci + '| character = ' + @new_character + '| email = ' + @new_email + '| id_user = ' + CONVERT(VARCHAR, @new_id_user) +
-	'| insert_date = ' + CONVERT(VARCHAR, @new_insert_date) + '| id_user_update = ' + CONVERT(VARCHAR, @new_id_user_update) +
-	'| update_date = ' + CONVERT(VARCHAR, @new_update_date)
-
---	Obtenemos los datos viejos
-	SELECT @old_id = id_patient, @old_name = name, @old_last_name = last_name, @old_birthdate = birthdate,
-	@old_gender = gender, @old_personality = personality, @old_ci = ci, @old_character = [character],
-	@old_email = email, @old_id_user =  id_user, @old_insert_date =  insert_date,
-	@old_id_user_update =  id_user_update, @old_update_date  = update_date
-	FROM deleted
-
--- creamos la cadena de los datos viejos
-	SET @old_data = 'id_user = ' + CONVERT(VARCHAR, @old_id) + '| name = ' + @old_name + '| last_name = ' + @old_last_name +
-	'| birthdate = ' + CONVERT(VARCHAR, @old_birthdate) + '| gender = ' + CONVERT(VARCHAR, @old_gender) + '| personality = ' + @old_personality +
-	'| ci = ' + @old_ci + '| character = ' + @old_character + '| email = ' + @old_email + '| id_user = ' + CONVERT(VARCHAR, @old_id_user) +
-	'| insert_date = ' + CONVERT(VARCHAR, @old_insert_date) + '| id_user_update = ' + CONVERT(VARCHAR, @old_id_user_update) +
-	'| update_date = ' + CONVERT(VARCHAR, @old_update_date)
-
--- Obtenemos el id de la bitacora
-	SELECT @id = isNull(MAX(id_binnacle), 0)
-	FROM dbfriday.dbo.tbl_binnacle
-
-	INSERT INTO dbo.tbl_binnacle(id_binnacle, operation, table_name, new_data, old_data, dt)
-	VALUES(@id + 1, 'UPDATE', 'TBL_PATIENT', @new_data , @old_data, getdate())
-GO
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost
+-- Tiempo de generación: 30-06-2019 a las 00:32:43
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.2.17
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `dbinventario`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_categoria`
+--
+
+CREATE TABLE `tbl_categoria` (
+  `idcategoria` int(50) NOT NULL,
+  `idusuario` int(50) NOT NULL,
+  `nombre_categoria` varchar(50) COLLATE utf8_bin NOT NULL,
+  `descripcion` varchar(100) COLLATE utf8_bin NOT NULL,
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `tbl_categoria`
+--
+
+INSERT INTO `tbl_categoria` (`idcategoria`, `idusuario`, `nombre_categoria`, `descripcion`, `fecha_mod`) VALUES
+(2, 1, 'Juegos', 'Listado de juegos', '2019-06-22 12:12:36'),
+(3, 1, 'Protectores', 'Protectores para la categoria', '2019-06-22 11:36:57'),
+(4, 1, 'Consolas', 'Consolas disponibles en venta', '2019-06-22 11:45:57'),
+(5, 1, 'Calcomanias', 'Calcomanías disponibles en la tienda', '2019-06-22 11:48:29'),
+(6, 1, 'Nintendo', 'Categoría de Nintendo', '2019-06-22 12:06:38'),
+(7, 1, 'Telefonos', 'Telefonos Disponibles', '2019-06-22 16:03:38'),
+(8, 1, 'Calculadoras', 'Calculadoras Disponibles', '2019-06-22 17:02:58'),
+(9, 1, 'Sony', 'Humo x2', '2019-06-24 07:02:15'),
+(10, 1, '1', '1', '2019-06-26 22:34:12');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_inventario`
+--
+
+CREATE TABLE `tbl_inventario` (
+  `idproducto` int(50) NOT NULL,
+  `nombre_producto` varchar(50) COLLATE utf8_bin NOT NULL,
+  `stock` int(100) NOT NULL,
+  `precio` double NOT NULL,
+  `idcategoria` int(50) NOT NULL,
+  `idproveedor` int(50) NOT NULL,
+  `idusuario` int(11) NOT NULL,
+  `descripcion_producto` varchar(100) COLLATE utf8_bin NOT NULL,
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `tbl_inventario`
+--
+
+INSERT INTO `tbl_inventario` (`idproducto`, `nombre_producto`, `stock`, `precio`, `idcategoria`, `idproveedor`, `idusuario`, `descripcion_producto`, `fecha_mod`) VALUES
+(1, 'Nintendo Switch', 198, 299.99, 2, 1, 1, 'Empresa desarrolladora de videojuegos de nintendo1', '2019-06-27 15:13:54'),
+(2, 'Xbox One X', 200, 499.99, 2, 1, 1, 'Empresa desarrolladora de videojuegos de xboc', '2019-06-27 09:36:44'),
+(3, '1wwrhhe', 120, 11241, 9, 25, 1, '1315RT42Y2EWET', '2019-06-27 09:33:50'),
+(4, '1', 1, 1, 8, 15, 1, '1', '2019-06-26 22:36:15'),
+(5, 'test', 22, 12424, 9, 15, 1, '12t4t32t23t', '2019-06-27 09:37:43'),
+(6, 'dw0ihew', 3412, 23424, 5, 20, 1, 'qrgqggerg', '2019-06-27 09:42:21');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_proveedores`
+--
+
+CREATE TABLE `tbl_proveedores` (
+  `idproveedor` int(50) NOT NULL,
+  `idusuario` int(50) NOT NULL,
+  `nombre_proveedor` varchar(50) COLLATE utf8_bin NOT NULL,
+  `direccion` varchar(100) COLLATE utf8_bin NOT NULL,
+  `telefono` varchar(10) COLLATE utf8_bin NOT NULL,
+  `descripcion` varchar(100) COLLATE utf8_bin NOT NULL,
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `tbl_proveedores`
+--
+
+INSERT INTO `tbl_proveedores` (`idproveedor`, `idusuario`, `nombre_proveedor`, `direccion`, `telefono`, `descripcion`, `fecha_mod`) VALUES
+(1, 1, 'Minerva Game Studio', 'Calle alberto masferrer', '78945168', 'Empresa desarrolladora de videojuegos', '2019-06-22 11:49:20'),
+(14, 1, 'Nintendo', 'Tokyo Japon', '849579', 'Empresa de Videojuegos', '2019-06-22 14:24:52'),
+(15, 1, 'Microsoft', 'USA', '1489-8489', '', '2019-06-22 15:57:22'),
+(16, 1, '1', '1', '1', '', '2019-06-22 16:59:03'),
+(17, 1, '1', '1', '1', '1', '2019-06-22 17:01:04'),
+(18, 1, '', '', '', '', '2019-06-22 15:35:24'),
+(19, 1, '', '', '', '', '2019-06-22 15:35:59'),
+(20, 1, 'u', '', '', '', '2019-06-22 15:46:34'),
+(21, 1, '1', '1', '1234-5665', '', '2019-06-22 15:56:08'),
+(22, 1, 'q', 'q', 'q', '', '2019-06-22 16:53:28'),
+(23, 1, '1', '1', '1', '', '2019-06-22 16:53:57'),
+(24, 1, '1', '1', '1', '1', '2019-06-22 17:00:46'),
+(25, 1, '999', '999', '9999-9999', '999', '2019-06-26 22:31:47');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_usuarios`
+--
+
+CREATE TABLE `tbl_usuarios` (
+  `idusuario` int(50) NOT NULL,
+  `usu_nombre` varchar(50) COLLATE utf8_bin NOT NULL,
+  `usu_apellido` varchar(50) COLLATE utf8_bin NOT NULL,
+  `usu_genero` int(11) NOT NULL,
+  `usu_dui` varchar(10) COLLATE utf8_bin NOT NULL,
+  `usu_usuario` varchar(50) COLLATE utf8_bin NOT NULL,
+  `usu_tipo` int(11) NOT NULL,
+  `usu_password` varchar(300) COLLATE utf8_bin NOT NULL,
+  `usu_estado` int(11) NOT NULL,
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Volcado de datos para la tabla `tbl_usuarios`
+--
+
+INSERT INTO `tbl_usuarios` (`idusuario`, `usu_nombre`, `usu_apellido`, `usu_genero`, `usu_dui`, `usu_usuario`, `usu_tipo`, `usu_password`, `usu_estado`, `fecha_mod`) VALUES
+(1, 'Carlos', 'Romero', 1, '33252352-3', 'cederh', 2, 'c108682be7d1cce6abc62e08d2bc6c5fee80f8921adf3f81fe6a2556908606d5bbde9a89221239625ba38e2097657182aa07f5475b353d781c64e73f6dbd07cd', 1, '2019-06-27 15:42:24'),
+(14, 'Monica', 'Mendiola', 2, '45574551-4', 'monic', 2, 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 2, '2019-06-27 16:08:10'),
+(15, 'Julio', 'Pineda', 1, '46548845-4', 'julio', 1, '65902dcd6a6403491ebb6c66eb303a498eb3dbf4f7581ceb81f68dbc747ae8637d287fb08d6e0e5cff411f614403146ccb22225f4e5f1e8296b43fd48acf5f6a', 2, '2019-06-27 16:26:15'),
+(16, 'Luis', 'Hernandez', 1, '48848747-4', 'luis', 1, '5e1a9be929a1863f81f4e801a6564c53fa061a9123ad18c7d3a5e346dc103b86edc57ee5d67ffedcf8b26abf85e95f5262f3057346733ec23f0a751a8fdd7511', 1, '2019-06-22 16:36:06'),
+(17, '1', '1', 1, '1', '1', 1, '5e1a9be929a1863f81f4e801a6564c53fa061a9123ad18c7d3a5e346dc103b86edc57ee5d67ffedcf8b26abf85e95f5262f3057346733ec23f0a751a8fdd7511', 1, '2019-06-22 18:04:20'),
+(18, '1', '1', 1, '1111111111', '1', 1, '5e1a9be929a1863f81f4e801a6564c53fa061a9123ad18c7d3a5e346dc103b86edc57ee5d67ffedcf8b26abf85e95f5262f3057346733ec23f0a751a8fdd7511', 1, '2019-06-22 17:26:54'),
+(19, '', '', 0, '', '', 0, '5e1a9be929a1863f81f4e801a6564c53fa061a9123ad18c7d3a5e346dc103b86edc57ee5d67ffedcf8b26abf85e95f5262f3057346733ec23f0a751a8fdd7511', 1, '2019-06-22 16:38:11'),
+(20, 'd', 'd', 1, '', '', 0, '5e1a9be929a1863f81f4e801a6564c53fa061a9123ad18c7d3a5e346dc103b86edc57ee5d67ffedcf8b26abf85e95f5262f3057346733ec23f0a751a8fdd7511', 1, '2019-06-22 16:39:28'),
+(21, 'q', 'q', 1, '', '', 0, '65902dcd6a6403491ebb6c66eb303a498eb3dbf4f7581ceb81f68dbc747ae8637d287fb08d6e0e5cff411f614403146ccb22225f4e5f1e8296b43fd48acf5f6a', 1, '2019-06-22 16:44:48'),
+(22, '1', '1', 1, '1', '2@e.com', 1, 'e349e40c8f50b09917762882735d910ba0a651224f8450ee495868c3c0de368f32c715be7da1e7e469de3ea0cb1f389038834c8b4a24f5544c4450c31d533abf', 1, '2019-06-22 16:43:55'),
+(23, '', '', 0, '', '', 0, '5e1a9be929a1863f81f4e801a6564c53fa061a9123ad18c7d3a5e346dc103b86edc57ee5d67ffedcf8b26abf85e95f5262f3057346733ec23f0a751a8fdd7511', 1, '2019-06-22 17:40:25'),
+(24, 'eqeqe', 'qeq', 1, 'qeqe', 'q', 1, 'f78f6cf22e8417cee3c70e059de3eed83d407ad6452ae3119ee5c03c0724c0a74b14609c0c1a1073ca421fcd1edc4dcc457afeb92f7bb2f40ee738c6859b6cfa', 1, '2019-06-24 07:02:42'),
+(25, '1', '1', 1, '1', '1', 1, '65902dcd6a6403491ebb6c66eb303a498eb3dbf4f7581ceb81f68dbc747ae8637d287fb08d6e0e5cff411f614403146ccb22225f4e5f1e8296b43fd48acf5f6a', 1, '2019-06-24 07:03:46');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  ADD PRIMARY KEY (`idcategoria`),
+  ADD KEY `fk_tbl_categoria_tbl_usuarios` (`idusuario`);
+
+--
+-- Indices de la tabla `tbl_inventario`
+--
+ALTER TABLE `tbl_inventario`
+  ADD PRIMARY KEY (`idproducto`),
+  ADD KEY `fk_tbl_inventario_tbl_usuarios` (`idusuario`),
+  ADD KEY `fk_tbl_inventario_tbl_categoria` (`idcategoria`),
+  ADD KEY `fk_tbl_inventario_tbl_provedores` (`idproveedor`);
+
+--
+-- Indices de la tabla `tbl_proveedores`
+--
+ALTER TABLE `tbl_proveedores`
+  ADD PRIMARY KEY (`idproveedor`),
+  ADD KEY `fk_tbl_proveedores_tbl_usuarios` (`idusuario`);
+
+--
+-- Indices de la tabla `tbl_usuarios`
+--
+ALTER TABLE `tbl_usuarios`
+  ADD PRIMARY KEY (`idusuario`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  MODIFY `idcategoria` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_inventario`
+--
+ALTER TABLE `tbl_inventario`
+  MODIFY `idproducto` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_proveedores`
+--
+ALTER TABLE `tbl_proveedores`
+  MODIFY `idproveedor` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_usuarios`
+--
+ALTER TABLE `tbl_usuarios`
+  MODIFY `idusuario` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  ADD CONSTRAINT `fk_tbl_categoria_tbl_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `tbl_usuarios` (`idusuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `tbl_inventario`
+--
+ALTER TABLE `tbl_inventario`
+  ADD CONSTRAINT `fk_tbl_inventario_tbl_categoria` FOREIGN KEY (`idcategoria`) REFERENCES `tbl_categoria` (`idcategoria`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_tbl_inventario_tbl_provedores` FOREIGN KEY (`idproveedor`) REFERENCES `tbl_proveedores` (`idproveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_tbl_inventario_tbl_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `tbl_usuarios` (`idusuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `tbl_proveedores`
+--
+ALTER TABLE `tbl_proveedores`
+  ADD CONSTRAINT `fk_tbl_proveedores_tbl_usuarios` FOREIGN KEY (`idusuario`) REFERENCES `tbl_usuarios` (`idusuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
