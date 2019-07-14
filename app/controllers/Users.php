@@ -94,7 +94,7 @@ class Users extends MainController{
       if (!$user) {
          header('location:'.ROUTE_URL.'/users');
       }
-
+         $
       $parameters = [
          'menu' => 'Usuarios',
          'user' => $user,
