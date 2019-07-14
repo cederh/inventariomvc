@@ -15,7 +15,7 @@
                <i class="fas fa-exclamation-triangle"></i>
            </div>
       </div>
-        <form action="<?php echo ROUTE_URL?>/users/disable/<?php echo $parameters['user']->idusuario?>" method="post" id="form-usuario">
+        <form action="<?php echo ROUTE_URL?>/users/disable/<?php echo $parameters['user']->idusuario?>" method="post" id="form-disable">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -110,7 +110,7 @@
                 </div>
 
                  <input type="text" style="display: none" name="estado" id="estado" value="<?php echo $parameters['user']->idusuario ?>">
-                 <input type="submit" class="btn btn-danger" name="guardar" value="Guardar">
+                 <input type="submit" class="btn btn-danger" name="guardar" value="Desactivar">
                  <a type="button" class="btn btn-default" href="<?php echo ROUTE_URL?>/users">Cerrar</a>
 
         </form>

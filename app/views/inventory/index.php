@@ -4,7 +4,7 @@
     <div class="card-header bg-transparent">
         <div class="row">
             <div class="col-md-6">
-                <h3 class="mb-0 text-blue"><i class="fas fa-inventorys"></i> Inventario </h3>
+                <h3 class="mb-0 text-blue"><i class="fas fa-boxes"></i> Inventario </h3>
             </div>
             <div class="col-md-6 text-right">
                 <button class="btn btn-icon btn-2 btn-sm btn-primary" type="button" data-toggle="modal"
@@ -55,7 +55,7 @@
                                     </a>
                                     <a class="dropdown-item"
                                         href="<?php echo ROUTE_URL?>/inventory/update_product/<?php echo $inventory->idproducto?>"><i
-                                            class="fas fa-inventory-edit"></i>Actualizar
+                                            class="fas fa-edit"></i>Actualizar
                                     </a>
                                     <a class="dropdown-item"
                                        href="<?php echo ROUTE_URL?>/inventory/add_stock/<?php echo $inventory->idusuario?>"><i

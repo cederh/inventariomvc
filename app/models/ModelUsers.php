@@ -94,6 +94,20 @@ class ModelUsers{
          return false;
       }
    }
+
+   public function active($id, $user){
+      $this->db->query("UPDATE tbl_usuarios
+                        SET usu_estado = 1, fecha_mod =  NOW()
+                        WHERE idusuario = :id");
+
+      $this->db->bind(':id', $id);
+
+      if ($this->db->execute()) {
+         return true;
+      }else {
+         return false;
+      }
+   }
 }
 
 ?>

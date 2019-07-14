@@ -50,7 +50,7 @@
                                           class="fas fa-info-circle"></i>Informacion</a>
                                     <a class="dropdown-item"
                                        href="<?php echo ROUTE_URL?>/providers/update_provider/<?php echo $providers->idproveedor?>"><i
-                                          class="fas fa-user-edit"></i>Actualizar</a>
+                                          class="fas fa-edit"></i>Actualizar</a>
                               </div>
                            </div>
                        </td>

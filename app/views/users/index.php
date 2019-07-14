@@ -13,7 +13,7 @@
                 </button>
                 <button class="btn btn-icon btn-2 btn-sm btn-default" type="button" data-toggle="modal"
                     data-target="#disable_users">
-                    <i class="fas fa-trash-restore"></i>
+                    <i class="fas fa-user-lock"></i>
                 </button>
             </div>
         </div>
@@ -67,7 +67,7 @@
                                     </a>
                                     <a class="dropdown-item"
                                        href="<?php echo ROUTE_URL?>/users/disable/<?php echo $user->idusuario?>"><i
-                                          class="fas fa-minus-circle"></i>Desactivar
+                                          class="fas fa-user-minus"></i>Desactivar
                                     </a>
                                 </div>
                             </div>
@@ -246,9 +246,11 @@
                                 <td>
                                     <?php echo $var = ($disable->usu_tipo == 2)?'Administrador':'Estandar'?>
                                 </td>
-                                  <td class="text-right">
-                                       <button class="btn btn-icon btn-2 btn-sm btn-success" type="button"> <i
-                                              class="fas fa-plus-circle"></i> </button>
+                                  <td>
+                                     <a class="dropdown-item"
+                                        href="<?php echo ROUTE_URL?>/users/active/<?php echo $disable->idusuario?>"><i
+                                           class="fas fa-user-plus"></i> Activar
+                                     </a>
                                 </td>
                             </tr>
                             <?php endforeach;?>

@@ -154,6 +154,37 @@ class Users extends MainController{
       // llamamos la vista y mandamos los parámetros
       $this->view('users/disable', $parameters);
    }
+
+   public function active($id = 0, $alert = '')
+   {
+
+      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+         // Limpiando los datos enviados por el usuario
+         $user['estado'] = sanitize($_POST['estado']);
+
+         if ($this->ModelUsers->active($id, $user)) {
+            header("location:".ROUTE_URL."/users/saved");
+         }else {
+            die("Error al Actualizar el Usuario");
+         }
+      }
+
+      $user = $this->ModelUsers->get_user($id);
+
+      if (!$user) {
+         header('location:'.ROUTE_URL.'/users');
+      }
+
+      // Preparamentos para enviar a la vista
+      $parameters = [
+           'menu' => 'Usuarios',
+           'alert' => $alert,
+           'user' => $user
+      ];
+
+      // llamamos la vista y mandamos los parámetros
+      $this->view('users/active', $parameters);
+   }
 }
 
 ?>

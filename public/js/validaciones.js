@@ -304,4 +304,97 @@
 
   }
 
+  //##############################################
+  //VALIDACIONES PARA EMPRESA
+  //##############################################
+  if (document.getElementById('form-empresa')) {
+    //Acceso al formulario
+     var formulario= document.getElementById('form-empresa');
+
+     var nombre = formulario.nombre;
+     var direccion = formulario.direccion;
+     var telefono = formulario.telefono;
+     var nit = formulario.nit;
+     var iva = formulario.iva;
+
+     //Accedemos al contenedor de errores
+     var errores = document.getElementById('errores');
+
+     function validarNombre(e){
+      if (nombre.value == '' || nombre.value == null) {
+       errores.style.display = 'block';
+       errores.innerHTML += '<p>Por favor Ingrese el Nombre</p>'; //Ingresar codigo html al elemento seleccionado
+       e.preventDefault();
+      }else if (nombre.value.length > 50) {
+       errores.style.display = 'block';
+       errores.innerHTML += '<p>El nombre debe tener menos de 50 Caracteres</p>';
+       e.preventDefault();
+      }
+     }
+
+     function validarDireccion(e){
+      if (direccion.value == '' || direccion.value == null) {
+       errores.style.display = 'block';
+       errores.innerHTML += '<p>Por favor Ingrese la Dirección</p>';
+       e.preventDefault();
+    }else if (direccion.value.length > 50) {
+       errores.style.display = 'block';
+       errores.innerHTML += '<p>La Dirección debe tener menos de 100 Caracteres</p>';
+       e.preventDefault();
+      }
+     }
+
+     function validarTelefono(e){
+      if (telefono.value.length != 9) {
+      errores.style.display = 'block';
+      errores.innerHTML += '<p>Por favor Ingrese un Telefono valido</p>';
+      e.preventDefault();
+      }
+     }
+
+     function validarNIT(e){
+      if (nit.value.length != 17) {
+       errores.style.display = 'block';
+       errores.innerHTML += '<p>Por favor Ingrese un NIT valido</p>';
+       e.preventDefault();
+      }
+     }
+
+     function validarIVA(e){
+     if (iva.value.length != 17) {
+      errores.style.display = 'block';
+      errores.innerHTML += '<p>Por favor Ingrese un IVA valido</p>';
+      e.preventDefault();
+      }
+     }
+
+     function validarFormulario(e){
+      //Limpiar contenedor
+      errores.innerHTML = '';
+      validarNombre(e);
+      validarDireccion(e);
+      validarTelefono(e);
+      validarNIT(e);
+      validarIVA(e);
+
+     }
+
+
+     formulario.addEventListener('submit', validarFormulario);
+
+     //Mascara de Texto para usuario
+     $(document).ready(function(){
+       $('#telefono').mask('0000-0000');
+     });
+
+     $(document).ready(function(){
+      $('#nit').mask('0000-000000-000-0');
+     });
+
+     $(document).ready(function(){
+      $('#iva').mask('0000-000000-000-0');
+     });
+
+ }
+
 }());
