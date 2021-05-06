@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 14-07-2019 a las 00:47:50
--- Versión del servidor: 5.7.24
--- Versión de PHP: 7.2.14
+-- Servidor: 127.0.0.1
+-- Tiempo de generaciÃ³n: 06-05-2021 a las 19:35:36
+-- VersiÃ³n del servidor: 10.4.18-MariaDB
+-- VersiÃ³n de PHP: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -28,16 +27,13 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `tbl_categoria`
 --
 
-DROP TABLE IF EXISTS `tbl_categoria`;
-CREATE TABLE IF NOT EXISTS `tbl_categoria` (
-  `idcategoria` int(50) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbl_categoria` (
+  `idcategoria` int(50) NOT NULL,
   `idusuario` int(50) NOT NULL,
   `nombre_categoria` varchar(50) COLLATE utf8_bin NOT NULL,
   `descripcion` varchar(100) COLLATE utf8_bin NOT NULL,
-  `fecha_mod` datetime NOT NULL,
-  PRIMARY KEY (`idcategoria`),
-  KEY `fk_tbl_categoria_tbl_usuarios` (`idusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Volcado de datos para la tabla `tbl_categoria`
@@ -47,7 +43,7 @@ INSERT INTO `tbl_categoria` (`idcategoria`, `idusuario`, `nombre_categoria`, `de
 (2, 1, 'Juegos', 'Listado de juegos', '2019-06-22 12:12:36'),
 (3, 1, 'Protectores', 'Protectores para la categoria', '2019-06-22 11:36:57'),
 (4, 1, 'Consolas', 'Consolas disponibles en venta', '2019-06-22 11:45:57'),
-(5, 1, 'Calcomanias', 'Calcomanías disponibles en la tienda', '2019-06-22 11:48:29');
+(5, 1, 'Calcomanias', 'CalcomanÃ­as disponibles en la tienda', '2019-06-22 11:48:29');
 
 -- --------------------------------------------------------
 
@@ -55,16 +51,14 @@ INSERT INTO `tbl_categoria` (`idcategoria`, `idusuario`, `nombre_categoria`, `de
 -- Estructura de tabla para la tabla `tbl_empresa`
 --
 
-DROP TABLE IF EXISTS `tbl_empresa`;
-CREATE TABLE IF NOT EXISTS `tbl_empresa` (
-  `id_empresa` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbl_empresa` (
+  `id_empresa` int(11) NOT NULL,
   `nombre_empresa` varchar(50) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   `telefono` varchar(9) NOT NULL,
   `nit` varchar(17) NOT NULL,
-  `iva` varchar(17) NOT NULL,
-  PRIMARY KEY (`id_empresa`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `iva` varchar(17) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `tbl_empresa`
@@ -79,9 +73,8 @@ INSERT INTO `tbl_empresa` (`id_empresa`, `nombre_empresa`, `direccion`, `telefon
 -- Estructura de tabla para la tabla `tbl_inventario`
 --
 
-DROP TABLE IF EXISTS `tbl_inventario`;
-CREATE TABLE IF NOT EXISTS `tbl_inventario` (
-  `idproducto` int(50) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbl_inventario` (
+  `idproducto` int(50) NOT NULL,
   `nombre_producto` varchar(50) COLLATE utf8_bin NOT NULL,
   `stock` int(100) NOT NULL,
   `precio` double NOT NULL,
@@ -89,12 +82,8 @@ CREATE TABLE IF NOT EXISTS `tbl_inventario` (
   `idproveedor` int(50) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `descripcion_producto` varchar(100) COLLATE utf8_bin NOT NULL,
-  `fecha_mod` datetime NOT NULL,
-  PRIMARY KEY (`idproducto`),
-  KEY `fk_tbl_inventario_tbl_usuarios` (`idusuario`),
-  KEY `fk_tbl_inventario_tbl_categoria` (`idcategoria`),
-  KEY `fk_tbl_inventario_tbl_provedores` (`idproveedor`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Volcado de datos para la tabla `tbl_inventario`
@@ -110,18 +99,15 @@ INSERT INTO `tbl_inventario` (`idproducto`, `nombre_producto`, `stock`, `precio`
 -- Estructura de tabla para la tabla `tbl_proveedores`
 --
 
-DROP TABLE IF EXISTS `tbl_proveedores`;
-CREATE TABLE IF NOT EXISTS `tbl_proveedores` (
-  `idproveedor` int(50) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbl_proveedores` (
+  `idproveedor` int(50) NOT NULL,
   `idusuario` int(50) NOT NULL,
   `nombre_proveedor` varchar(50) COLLATE utf8_bin NOT NULL,
   `direccion` varchar(100) COLLATE utf8_bin NOT NULL,
   `telefono` varchar(10) COLLATE utf8_bin NOT NULL,
   `descripcion` varchar(100) COLLATE utf8_bin NOT NULL,
-  `fecha_mod` datetime NOT NULL,
-  PRIMARY KEY (`idproveedor`),
-  KEY `fk_tbl_proveedores_tbl_usuarios` (`idusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Volcado de datos para la tabla `tbl_proveedores`
@@ -138,9 +124,8 @@ INSERT INTO `tbl_proveedores` (`idproveedor`, `idusuario`, `nombre_proveedor`, `
 -- Estructura de tabla para la tabla `tbl_usuarios`
 --
 
-DROP TABLE IF EXISTS `tbl_usuarios`;
-CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
-  `idusuario` int(50) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbl_usuarios` (
+  `idusuario` int(50) NOT NULL,
   `usu_nombre` varchar(50) COLLATE utf8_bin NOT NULL,
   `usu_apellido` varchar(50) COLLATE utf8_bin NOT NULL,
   `usu_genero` int(11) NOT NULL,
@@ -149,16 +134,89 @@ CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
   `usu_tipo` int(11) NOT NULL,
   `usu_password` varchar(300) COLLATE utf8_bin NOT NULL,
   `usu_estado` int(11) NOT NULL,
-  `fecha_mod` datetime NOT NULL,
-  PRIMARY KEY (`idusuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `fecha_mod` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Volcado de datos para la tabla `tbl_usuarios`
 --
 
 INSERT INTO `tbl_usuarios` (`idusuario`, `usu_nombre`, `usu_apellido`, `usu_genero`, `usu_dui`, `usu_usuario`, `usu_tipo`, `usu_password`, `usu_estado`, `fecha_mod`) VALUES
-(1, 'admin', 'test', 1, '33252352-3', 'admin', 2, 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 1, '2019-06-27 15:42:24');
+(1, 'admin', 'admin', 1, '33252352-3', 'admin', 2, 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 1, '2021-05-06 11:20:39'),
+(28, 'prueba', 'usuario', 1, '12452332-5', 'test', 1, 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 1, '2021-05-06 11:23:24');
+
+--
+-- Ãndices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  ADD PRIMARY KEY (`idcategoria`),
+  ADD KEY `fk_tbl_categoria_tbl_usuarios` (`idusuario`);
+
+--
+-- Indices de la tabla `tbl_empresa`
+--
+ALTER TABLE `tbl_empresa`
+  ADD PRIMARY KEY (`id_empresa`);
+
+--
+-- Indices de la tabla `tbl_inventario`
+--
+ALTER TABLE `tbl_inventario`
+  ADD PRIMARY KEY (`idproducto`),
+  ADD KEY `fk_tbl_inventario_tbl_usuarios` (`idusuario`),
+  ADD KEY `fk_tbl_inventario_tbl_categoria` (`idcategoria`),
+  ADD KEY `fk_tbl_inventario_tbl_provedores` (`idproveedor`);
+
+--
+-- Indices de la tabla `tbl_proveedores`
+--
+ALTER TABLE `tbl_proveedores`
+  ADD PRIMARY KEY (`idproveedor`),
+  ADD KEY `fk_tbl_proveedores_tbl_usuarios` (`idusuario`);
+
+--
+-- Indices de la tabla `tbl_usuarios`
+--
+ALTER TABLE `tbl_usuarios`
+  ADD PRIMARY KEY (`idusuario`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  MODIFY `idcategoria` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_empresa`
+--
+ALTER TABLE `tbl_empresa`
+  MODIFY `id_empresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_inventario`
+--
+ALTER TABLE `tbl_inventario`
+  MODIFY `idproducto` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_proveedores`
+--
+ALTER TABLE `tbl_proveedores`
+  MODIFY `idproveedor` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_usuarios`
+--
+ALTER TABLE `tbl_usuarios`
+  MODIFY `idusuario` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Restricciones para tablas volcadas

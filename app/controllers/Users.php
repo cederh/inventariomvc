@@ -1,190 +1,195 @@
 <?php
 
-class Users extends MainController{
-    public function __construct(){
-      sessionAdmin();
-      $this->ModelUsers = $this->model('ModelUsers');
+class Users extends MainController
+{
+    public function __construct()
+    {
+        sessionAdmin();
+        $this->ModelUsers = $this->model('ModelUsers');
+    }
 
-   }
-
-   public function index($alert = ''){
+    public function index($alert = '')
+    {
 
         // Obtener los datos de los usuarios
-      $users = $this->ModelUsers->get_users();
-      $disable = $this->ModelUsers->get_disable();
-      $parameters = [
-         'menu' => 'Usuarios',
-         'users' => $users,
-         'alert' => $alert,
-         'disable'=> $disable
-      ];
+        $users = $this->ModelUsers->get_users();
+        $disable = $this->ModelUsers->get_disable();
+        $parameters = [
+            'menu' => 'Usuarios',
+            'users' => $users,
+            'alert' => $alert,
+            'disable' => $disable
+        ];
 
-      // Cargando la vista
-      $this->view('users/index', $parameters);
-   }
+        // Cargando la vista
+        $this->view('users/index', $parameters);
+    }
 
-   public function add_user(){
+    public function add_user()
+    {
 
-      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-         // Limpiando los datos enviados por el usuario
-         $user['nombre'] = sanitize($_POST['nombre']);
-         $user['apellido'] = sanitize($_POST['apellido']);
-         $user['genero'] = sanitize($_POST['genero']);
-         $user['dui'] = sanitize($_POST['dui']);
-         $user['user'] = sanitize($_POST['user']);
-         $user['user_type'] = sanitize($_POST['user_type']);
-         $user['pass'] = hash('sha512', SALT . sanitize($_POST['pass']));
-         $user['pass2'] = sanitize($_POST['pass2']);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Limpiando los datos enviados por el usuario
+            $user['nombre'] = sanitize($_POST['nombre']);
+            $user['apellido'] = sanitize($_POST['apellido']);
+            $user['genero'] = sanitize($_POST['genero']);
+            $user['dui'] = sanitize($_POST['dui']);
+            $user['user'] = sanitize($_POST['user']);
+            $user['user_type'] = sanitize($_POST['user_type']);
+            $user['pass'] = hash('sha512', SALT . sanitize($_POST['pass']));
+            $user['pass2'] = sanitize($_POST['pass2']);
 
-         if ($this->ModelUsers->add_user($user)) {
-            header('location: '. ROUTE_URL . '/users/saved');
-         }else{
-            echo "No se pudo guardar la informacion";
-         }
-      }
-   }
+            if ($this->ModelUsers->add_user($user)) {
+                header('location: ' . ROUTE_URL . '/users/saved');
+            } else {
+                echo "No se pudo guardar la informacion";
+            }
+        }
+    }
 
-   public function update($id = 0, $alert = ''){
+    public function update($id = 0, $alert = '')
+    {
 
-      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-         // Limpiando los datos enviados por el usuario
-         $user['nombre'] = sanitize($_POST['nombre']);
-         $user['apellido'] = sanitize($_POST['apellido']);
-         $user['genero'] = sanitize($_POST['genero']);
-         $user['dui'] = sanitize($_POST['dui']);
-         $user['user'] = sanitize($_POST['user']);
-         $user['user_type'] = sanitize($_POST['user_type']);
+        $errores = 0;
 
-         if ($this->ModelUsers->update_user($id, $user)) {
-            header("location:".ROUTE_URL."/users/update/".$id."/saved");
-         }else {
-            die("Error al Actualizar el Usuario");
-         }
-      }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Limpiando los datos enviados por el usuario
+            $user['nombre'] = sanitize($_POST['nombre']);
+            $user['apellido'] = sanitize($_POST['apellido']);
+            $user['genero'] = sanitize($_POST['genero']);
+            $user['dui'] = sanitize($_POST['dui']);
+            $user['user'] = sanitize($_POST['user']);
+            $user['user_type'] = sanitize($_POST['user_type']);
 
-      $user = $this->ModelUsers->get_user($id);
+            if ($this->ModelUsers->update_user($id, $user)) {
+                header("location:" . ROUTE_URL . "/users/update/" . $id . "/saved");
+            } else {
+                die("Error al Actualizar el Usuario");
+            }
+        }
 
-      if (!$user) {
-         header('location:'.ROUTE_URL.'/users');
-      }
+        $user = $this->ModelUsers->get_user($id);
 
-      $parameters = [
-         'menu' => 'Usuarios',
-         'user' => $user,
-         'errores' => $errores,
-         'alert' => $alert
-      ];
+        if (!$user) {
+            header('location:' . ROUTE_URL . '/users');
+        }
 
-      $this->view('users/update', $parameters);
-   }
+        $parameters = [
+            'menu' => 'Usuarios',
+            'user' => $user,
+            'errores' => $errores,
+            'alert' => $alert
+        ];
 
-   public function update_password($id = 0, $alert = ''){
-      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $this->view('users/update', $parameters);
+    }
 
-         // Limpiamos los datos para prevenir inyección de código
-         $user['pass'] = hash('sha512', SALT . sanitize($_POST['pass']));
+    public function update_password($id = 0, $alert = '')
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-         if ($this->ModelUsers->update_password($id, $user)) {
-            header("location:".ROUTE_URL."/users/update_password/".$id."/saved");
-         }else {
-            die('Error al guardar los datos');
-         }
-      }
-      $user = $this->ModelUsers->get_user($id);
-      if (!$user) {
-         header('location:'.ROUTE_URL.'/users');
-      }
-         $
-      $parameters = [
-         'menu' => 'Usuarios',
-         'user' => $user,
-         'alert' => $alert
-      ];
+            // Limpiamos los datos para prevenir inyección de código
+            $user['pass'] = hash('sha512', SALT . sanitize($_POST['pass']));
 
-      $this->view('users/update_password', $parameters);
-   }
+            if ($this->ModelUsers->update_password($id, $user)) {
+                header("location:" . ROUTE_URL . "/users/update_password/" . $id . "/saved");
+            } else {
+                die('Error al guardar los datos');
+            }
+        }
+        $user = $this->ModelUsers->get_user($id);
+        if (!$user) {
+            header('location:' . ROUTE_URL . '/users');
+        }
+        $parameters = [
+            'menu' => 'Usuarios',
+            'user' => $user,
+            'alert' => $alert
+        ];
 
-   public function info($id = 0){
+        $this->view('users/update_password', $parameters);
+    }
 
-      // Obtenemos la información del paciente
-      $user = $this->ModelUsers->get_user($id);
+    public function info($id = 0)
+    {
 
-      // Si no hay un paciente con ese id redireccionamos
-      if (!$user) {
-           redirect('/users');
-      }
+        // Obtenemos la información del paciente
+        $user = $this->ModelUsers->get_user($id);
 
-      // Preparamentos para enviar a la vista
-      $parameters = [
-           'menu' => 'Usuarios',
-           'user' => $user
-      ];
+        // Si no hay un paciente con ese id redireccionamos
+        if (!$user) {
+            redirect('/users');
+        }
 
-      // llamamos la vista y mandamos los parámetros
-      $this->view('users/info', $parameters);
-   }
+        // Preparamentos para enviar a la vista
+        $parameters = [
+            'menu' => 'Usuarios',
+            'user' => $user
+        ];
 
-   public function disable($id = 0, $alert = '')
-   {
+        // llamamos la vista y mandamos los parámetros
+        $this->view('users/info', $parameters);
+    }
 
-      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-         // Limpiando los datos enviados por el usuario
-         $user['estado'] = sanitize($_POST['estado']);
+    public function disable($id = 0, $alert = '')
+    {
 
-         if ($this->ModelUsers->disable($id, $user)) {
-            header("location:".ROUTE_URL."/users/saved");
-         }else {
-            die("Error al Actualizar el Usuario");
-         }
-      }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Limpiando los datos enviados por el usuario
+            $user['estado'] = sanitize($_POST['estado']);
 
-      $user = $this->ModelUsers->get_user($id);
+            if ($this->ModelUsers->disable($id, $user)) {
+                header("location:" . ROUTE_URL . "/users/saved");
+            } else {
+                die("Error al Actualizar el Usuario");
+            }
+        }
 
-      if (!$user) {
-         header('location:'.ROUTE_URL.'/users');
-      }
+        $user = $this->ModelUsers->get_user($id);
 
-      // Preparamentos para enviar a la vista
-      $parameters = [
-           'menu' => 'Usuarios',
-           'alert' => $alert,
-           'user' => $user
-      ];
+        if (!$user) {
+            header('location:' . ROUTE_URL . '/users');
+        }
 
-      // llamamos la vista y mandamos los parámetros
-      $this->view('users/disable', $parameters);
-   }
+        // Preparamentos para enviar a la vista
+        $parameters = [
+            'menu' => 'Usuarios',
+            'alert' => $alert,
+            'user' => $user
+        ];
 
-   public function active($id = 0, $alert = '')
-   {
+        // llamamos la vista y mandamos los parámetros
+        $this->view('users/disable', $parameters);
+    }
 
-      if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-         // Limpiando los datos enviados por el usuario
-         $user['estado'] = sanitize($_POST['estado']);
+    public function active($id = 0, $alert = '')
+    {
 
-         if ($this->ModelUsers->active($id, $user)) {
-            header("location:".ROUTE_URL."/users/saved");
-         }else {
-            die("Error al Actualizar el Usuario");
-         }
-      }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Limpiando los datos enviados por el usuario
+            $user['estado'] = sanitize($_POST['estado']);
 
-      $user = $this->ModelUsers->get_user($id);
+            if ($this->ModelUsers->active($id, $user)) {
+                header("location:" . ROUTE_URL . "/users/saved");
+            } else {
+                die("Error al Actualizar el Usuario");
+            }
+        }
 
-      if (!$user) {
-         header('location:'.ROUTE_URL.'/users');
-      }
+        $user = $this->ModelUsers->get_user($id);
 
-      // Preparamentos para enviar a la vista
-      $parameters = [
-           'menu' => 'Usuarios',
-           'alert' => $alert,
-           'user' => $user
-      ];
+        if (!$user) {
+            header('location:' . ROUTE_URL . '/users');
+        }
 
-      // llamamos la vista y mandamos los parámetros
-      $this->view('users/active', $parameters);
-   }
+        // Preparamentos para enviar a la vista
+        $parameters = [
+            'menu' => 'Usuarios',
+            'alert' => $alert,
+            'user' => $user
+        ];
+
+        // llamamos la vista y mandamos los parámetros
+        $this->view('users/active', $parameters);
+    }
 }
-
-?>
