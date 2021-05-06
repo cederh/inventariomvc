@@ -158,10 +158,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
 --
 
 INSERT INTO `tbl_usuarios` (`idusuario`, `usu_nombre`, `usu_apellido`, `usu_genero`, `usu_dui`, `usu_usuario`, `usu_tipo`, `usu_password`, `usu_estado`, `fecha_mod`) VALUES
-(1, 'Carlos', 'Romero', 1, '33252352-3', 'cederh', 2, 'c108682be7d1cce6abc62e08d2bc6c5fee80f8921adf3f81fe6a2556908606d5bbde9a89221239625ba38e2097657182aa07f5475b353d781c64e73f6dbd07cd', 1, '2019-06-27 15:42:24'),
-(14, 'Monica', 'Mendiola', 2, '45574551-4', 'monic', 2, 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 1, '2019-07-13 14:29:19'),
-(15, 'Julio', 'Pineda', 1, '46548845-4', 'julio', 1, '65902dcd6a6403491ebb6c66eb303a498eb3dbf4f7581ceb81f68dbc747ae8637d287fb08d6e0e5cff411f614403146ccb22225f4e5f1e8296b43fd48acf5f6a', 1, '2019-07-13 14:34:58'),
-(16, 'Luis', 'Hernandez', 1, '48848747-4', 'luis', 1, '5e1a9be929a1863f81f4e801a6564c53fa061a9123ad18c7d3a5e346dc103b86edc57ee5d67ffedcf8b26abf85e95f5262f3057346733ec23f0a751a8fdd7511', 2, '2019-07-13 14:05:42');
+(1, 'admin', 'test', 1, '33252352-3', 'admin', 2, 'c108682be7d1cce6abc62e08d2bc6c5fee80f8921adf3f81fe6a2556908606d5bbde9a89221239625ba38e2097657182aa07f5475b353d781c64e73f6dbd07cd', 1, '2019-06-27 15:42:24');
 
 --
 -- Restricciones para tablas volcadas
