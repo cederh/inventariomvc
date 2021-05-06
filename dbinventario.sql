@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
 --
 
 INSERT INTO `tbl_usuarios` (`idusuario`, `usu_nombre`, `usu_apellido`, `usu_genero`, `usu_dui`, `usu_usuario`, `usu_tipo`, `usu_password`, `usu_estado`, `fecha_mod`) VALUES
-(1, 'admin', 'test', 1, '33252352-3', 'admin', 2, 'c108682be7d1cce6abc62e08d2bc6c5fee80f8921adf3f81fe6a2556908606d5bbde9a89221239625ba38e2097657182aa07f5475b353d781c64e73f6dbd07cd', 1, '2019-06-27 15:42:24');
+(1, 'admin', 'test', 1, '33252352-3', 'admin', 2, 'eb920bc48e4b41660947ba8aa0bedb0be46deb719a46a461a65b0dec4d7f58cf047003646ae50d7dba09f1e0e388aa29227f14bc14315429d5e8450dfd6d148b', 1, '2019-06-27 15:42:24');
 
 --
 -- Restricciones para tablas volcadas
